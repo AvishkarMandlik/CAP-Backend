@@ -11,6 +11,7 @@ import AdmissionForm from './pages/AdmissionForm';
 import PersonalInfo from './components/Student/Personalinfo';
 import Educationalinfo from './components/Student/Educationalinfo';
 import InternalMarks from './components/Teacher/InternalMarks';
+import ExternalMarks from './components/Teacher/ExternalMarks';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
       <Route path="/studentdashboard/admissionform/personalinfo" element={<PersonalInfo />} />
       <Route path="/studentdashboard/admissionform/educationalinfo" element={<Educationalinfo />} />
       <Route path="/teacherdashboard/internalmarks" element={<InternalMarks />} />
+      <Route path="/teacherdashboard/externalmarks" element={<ExternalMarks />} />
     </Routes>
   </BrowserRouter>
   );
