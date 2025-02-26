@@ -32,13 +32,13 @@ function CapDashboard() {
           ManagePage("AdmissionApproval");
         },
       },
-      {
-        text: "Course Update",
-        icon: "fa-solid fa-square-check",
-        callbackfunc: () => {
-          ManagePage("CourseUpdate");
-        },
-      },
+      // {
+      //   text: "Course Update",
+      //   icon: "fa-solid fa-square-check",
+      //   callbackfunc: () => {
+      //     ManagePage("CourseUpdate");
+      //   },
+      // },
       {
         text: "Course Addition",
         icon: "fa-solid fa-square-check",
@@ -134,9 +134,9 @@ function CapDashboard() {
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen w-full">
       {/* SidePanel on the left */}
-      <div className="w-100 bg-gray-800 text-white">
+      <div className="w-60 bg-gray-800 text-white">
         <SidePanel {...capProps} />
       </div>
       <div className="flex-1 p-2 bg-gray-100">

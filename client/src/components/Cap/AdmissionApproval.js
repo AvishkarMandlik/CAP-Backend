@@ -10,7 +10,7 @@ const AdmissionApproval = () => {
   useEffect(() => {
     const fetchUnverifiedDocuments = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/cap/Admissionverification'); 
+        const response = await axios.get('http://localhost:5000/cap/Admissionverification'); 
         setDocuments(response.data);
         setLoading(false);
       } catch (err) {
@@ -23,13 +23,13 @@ const AdmissionApproval = () => {
   }, []);
 
   // Function to handle verification
-  const handleVerify = async (documentId) => {
+  const handleVerify = async (email) => {
     try {
       // Call the backend API to verify the document
-      await axios.post(`/api/admission/verify/${documentId}`); // Replace with your API endpoint
+      await axios.put(`http://localhost:5000/cap/verifyAdmission`, { email: email }); // Replace with your API endpoint
 
       // Update the local state to remove the verified document
-      setDocuments((prevDocs) => prevDocs.filter((doc) => doc.id !== documentId));
+      setDocuments((prevDocs) => prevDocs.filter((doc) => doc.email !== email));
     } catch (err) {
       console.error('Error verifying document:', err);
     }
@@ -53,7 +53,7 @@ const AdmissionApproval = () => {
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Unverified Admission Documents</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Unverified Admissions</h2>
       {documents.length === 0 ? (
         <p className="text-gray-600">No unverified documents found.</p>
       ) : (
@@ -73,8 +73,8 @@ const AdmissionApproval = () => {
                   <span className="text-gray-600">{doc.studentName}</span>
                 </div>
                 <div>
-                  <span className="font-semibold text-gray-700">Document Type:</span>{' '}
-                  <span className="text-gray-600">{doc.documentType}</span>
+                  <span className="font-semibold text-gray-700">Email:</span>{' '}
+                  <span className="text-gray-600">{doc.email}</span>
                 </div>
                 <div>
                   <span className="font-semibold text-gray-700">Submitted On:</span>{' '}
@@ -82,7 +82,7 @@ const AdmissionApproval = () => {
                 </div>
               </div>
               <button
-                onClick={() => handleVerify(doc.id)}
+                onClick={() => handleVerify(doc.email)}
                 className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
               >
                 Verify
