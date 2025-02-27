@@ -5,13 +5,19 @@ import EditInternalMarks from '../components/Teacher/EditInternalMarks';
 import ExternalMarksEntry from '../components/Teacher/ExternalMarksEntry';
 import EditExternalMarks from '../components/Teacher/EditExternalMarks';
 import ViewStatus from '../components/Teacher/ViewStatus'; 
+import TeacherMarksDashboard from '../components/Teacher/TeacherMarksDashboard';
 
 function TeacherDashboard() {
-    const [activeComponent, setActiveComponent] = useState('InternalMarksEntry');
+    const [activeComponent, setActiveComponent] = useState('TeacherMarksDashboard');
 
     const teacherProps = {
         title: "TEACHER DASHBOARD",
         items: [
+            {
+                text:"Teacher Marks Dashboard",
+                icon: "fa-solid fa-chalkboard-teacher",
+                callbackfunc: () => setActiveComponent('TeacherMarksDashboard')
+            },
             { 
                 text: "Int. Examiner - Marks Entry and Absentee", 
                 icon: "fa-solid fa-pen-to-square", 
@@ -43,6 +49,9 @@ function TeacherDashboard() {
 
     const renderActiveComponent = () => {
         switch (activeComponent) {
+
+            case 'TeacherMarksDashboard':
+                return <TeacherMarksDashboard />;
             case 'InternalMarksEntry':
                 return <InternalMarksEntry />;
             case 'EditInternalMarks':
