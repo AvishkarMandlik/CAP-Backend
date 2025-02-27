@@ -1,22 +1,71 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SidePanel from '../components/SidePanel';
+import InternalMarksEntry from '../components/Teacher/InternalMarksEntry';
+import EditInternalMarks from '../components/Teacher/EditInternalMarks';
+import ExternalMarksEntry from '../components/Teacher/ExternalMarksEntry';
+import EditExternalMarks from '../components/Teacher/EditExternalMarks';
+import ViewStatus from '../components/Teacher/ViewStatus'; 
 
 function TeacherDashboard() {
+    const [activeComponent, setActiveComponent] = useState('InternalMarksEntry');
+
     const teacherProps = {
         title: "TEACHER DASHBOARD",
         items: [
-            { text: "Int. Examiner - Marks Entry and Absentee", icon: "fa-solid fa-pen-to-square", link: "#" },
-            { text: "Int. Examiner - Edit Permission Internal", icon: "fa-solid fa-pen-to-square", link: "#" },
-            { text: "Ext. Examiner - Marks Entry and Absentee", icon: "fa-solid fa-pen-to-square", link: "#" },
-            { text: "Ext. Examiner - Edit Permission External", icon: "fa-solid fa-pen-to-square", link: "#" },
-            { text: "View Status", icon: "fa-solid fa-square-poll-vertical", link: "#" }
+            { 
+                text: "Int. Examiner - Marks Entry and Absentee", 
+                icon: "fa-solid fa-pen-to-square", 
+                callbackfunc: () => setActiveComponent('InternalMarksEntry') 
+            },
+            { 
+                text: "Int. Examiner - Edit Permission Internal", 
+                icon: "fa-solid fa-pen-to-square", 
+                callbackfunc: () => setActiveComponent('EditInternalMarks') 
+            },
+            { 
+                text: "Ext. Examiner - Marks Entry and Absentee", 
+                icon: "fa-solid fa-pen-to-square", 
+                callbackfunc: () => setActiveComponent('ExternalMarksEntry') 
+            },
+            { 
+                text: "Ext. Examiner - Edit Permission External", 
+                icon: "fa-solid fa-pen-to-square", 
+                callbackfunc: () => setActiveComponent('EditExternalMarks') 
+            },
+            { 
+                text: "View Status", 
+                icon: "fa-solid fa-square-poll-vertical", 
+                callbackfunc: () => setActiveComponent('ViewStatus') 
+            },
         ],
         content: "Welcome, teacher! Manage your tasks here."
     };
 
+    const renderActiveComponent = () => {
+        switch (activeComponent) {
+            case 'InternalMarksEntry':
+                return <InternalMarksEntry />;
+            case 'EditInternalMarks':
+                return <EditInternalMarks />;
+            case 'ExternalMarksEntry':
+                return <ExternalMarksEntry />;
+            case 'EditExternalMarks':
+                return <EditExternalMarks />;
+            case 'ViewStatus':
+                return <ViewStatus />;
+            default:
+                return <div>Select an option from the sidebar</div>;
+        }
+    };
+
     return (
-        <div>
-            <SidePanel {...teacherProps} />
+        <div className="flex min-h-screen">
+            <div className="w-100 bg-gray-800 text-white">
+                <SidePanel {...teacherProps} />
+            </div>
+            <div className="flex-1 p-2 bg-gray-100">
+                {renderActiveComponent()}
+            </div>
         </div>
     );
 }
