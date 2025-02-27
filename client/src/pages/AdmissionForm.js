@@ -1,5 +1,5 @@
+import React, { useState } from "react";
 import SidePanel from "../components/SidePanel";
-import { useState } from "react";
 import PersonalInfo from "../components/Student/Personalinfo";
 import EducationalInfo from "../components/Student/Educationalinfo";
 import PhotoSignature from "../components/Student/PhotoSignature";
@@ -8,64 +8,44 @@ import CoursePayment from "../components/Student/CoursePayment";
 // import SubmitApplication from '../components/Student/SubmitApplication';
 
 function Admission() {
-  const [DashboardCheck, setDashboard] = useState(true);
-  const [PersonalInfoCheck, setPersonalInfo] = useState(true);
-  const [EducationalInfoCheck, setEducationInfo] = useState(false);
-  const [PhotoSignatureCheck, setPhotoSignature] = useState(false);
-  const [SelectionSubjectCheck, setSelectionSubject] = useState(false);
-  const [CoursePaymentCheck, setCoursePayment] = useState(false);
-  const [SubmitApplicationCheck, setSubmitApplication] = useState(false);
+  const [activeComponent, setActiveComponent] = useState("PersonalInfo");
 
   const studentProps = {
     items: [
-      {
-        text: "Dashboard",
-        icon: "fa-solid fa-square-check",
-        callbackfunc: () => {
-          ManagePage("Dashboard");
-        },
-      },
+      // {
+      //   text: "Dashboard",
+      //   icon: "fa-solid fa-square-check",
+      //   callbackfunc: () => setActiveComponent("Dashboard"),
+      // },
       {
         text: "Personal Info",
         icon: "fa fa-address-book",
-        callbackfunc: () => {
-          ManagePage("PersonalInfo");
-        },
+        callbackfunc: () => setActiveComponent("PersonalInfo"),
       },
       {
         text: "Educational Info",
         icon: "fa-solid fa-repeat",
-        callbackfunc: () => {
-          ManagePage("EducationalInfo");
-        },
+        callbackfunc: () => setActiveComponent("EducationalInfo"),
       },
       {
         text: "Photo & Signature",
         icon: "fa fa-file-text",
-        callbackfunc: () => {
-          ManagePage("PhotoSignature");
-        },
+        callbackfunc: () => setActiveComponent("PhotoSignature"),
       },
       {
         text: "Selection of Subject",
         icon: "fa fa-file-text",
-        callbackfunc: () => {
-          ManagePage("SelectionSubject");
-        },
+        callbackfunc: () => setActiveComponent("SelectionSubject"),
       },
       {
         text: "Course Payment",
         icon: "fa fa-file-text",
-        callbackfunc: () => {
-          ManagePage("CoursePayment");
-        },
+        callbackfunc: () => setActiveComponent("CoursePayment"),
       },
       {
         text: "Submit Application",
         icon: "fa fa-file-text",
-        callbackfunc: () => {
-          ManagePage("SubmitApplication");
-        },
+        callbackfunc: () => setActiveComponent("SubmitApplication"),
       },
       {
         text: "Exit to Main Dashboard",
@@ -74,53 +54,38 @@ function Admission() {
       },
     ],
   };
-  function turnFalse() {
-    setDashboard(false);
-    setPersonalInfo(false);
-    setEducationInfo(false);
-    setPhotoSignature(false);
-    setSelectionSubject(false);
-    setCoursePayment(false);
-    setSubmitApplication(false);
-  }
-  function ManagePage(page) {
-    if (page === "PersonalInfo") {
-      turnFalse();
-      setPersonalInfo(true);
-    } else if (page === "Dashboard") {
-      turnFalse();
-      setDashboard(true);
-    } else if (page === "EducationalInfo") {
-      turnFalse();
-      setEducationInfo(true);
-    } else if (page === "PhotoSignature") {
-      turnFalse();
-      setPhotoSignature(true);
-    } else if (page === "SelectionSubject") {
-      turnFalse();
-      setSelectionSubject(true);
-    } else if (page === "CoursePayment") {
-      turnFalse();
-      setCoursePayment(true);
-    } else if (page === "SubmitApplication") {
-      turnFalse();
-      setSubmitApplication(true);
+
+  const renderActiveComponent = () => {
+    switch (activeComponent) {
+      case "Dashboard":
+        return <div>Dashboard Content</div>; 
+      case "PersonalInfo":
+        return <PersonalInfo />;
+      case "EducationalInfo":
+        return <EducationalInfo />;
+      case "PhotoSignature":
+        return <PhotoSignature />;
+      case "SelectionSubject":
+        return <SelectionSubject />;
+      case "CoursePayment":
+        return <CoursePayment />;
+      case "SubmitApplication":
+        return <div>Submit Application Content</div>; 
+      default:
+        return <div>Select an option from the sidebar</div>;
     }
-  }
+  };
+
   return (
     <div className="flex min-h-screen">
       {/* SidePanel on the left */}
       <div className="w-100 bg-gray-800 text-white">
         <SidePanel {...studentProps} />
       </div>
+      {/* Main content area */}
       <div className="flex-1 p-2 bg-gray-100">
         <div className="text-gray-600">
-          {PersonalInfoCheck ? <PersonalInfo /> : null}
-          {EducationalInfoCheck ? <EducationalInfo /> : null}
-          {PhotoSignatureCheck ? <PhotoSignature /> : null}
-          {SelectionSubjectCheck ? <SelectionSubject /> : null}
-          {CoursePaymentCheck ? <CoursePayment /> : null}
-          {/* {SubmitApplicationCheck ? <SubmitApplication/> : null}  */}
+          {renderActiveComponent()}
         </div>
       </div>
     </div>
@@ -128,57 +93,3 @@ function Admission() {
 }
 
 export default Admission;
-
-// import React, { useState } from 'react';
-// import SidePanel from '../components/SidePanel';
-// import Personalinfo from '../components/Student/Personalinfo';
-// import Educationalinfo from '../components/Student/Educationalinfo';
-// // import PhotoSignature from '../components/Student/Photosignature';
-// // import SelectionSubject from '../components/Student/Selectionsubject';
-// // import CoursePayment from '../components/Student/Coursepayment';
-// // import SubmitApplication from '../components/Student/Submitapplication';
-
-// function Admission() {
-//   const [activeComponent, setActiveComponent] = useState("PersonalInfo"); // Default component
-
-//   // Function to handle menu clicks
-//   const handleMenuClick = (component) => {
-//     setActiveComponent(component);
-//   };
-
-//   const studentProps = {
-//     items: [
-//       { text: "Dashboard", icon: "fa-solid fa-square-check", link: "#" },
-//       { text: "Personal Info", icon: "fa fa-address-book", link:"", onClick: () => handleMenuClick("PersonalInfo") },
-//       { text: "Educational Info", icon: "fa-solid fa-repeat", link: "", onClick: () => handleMenuClick("Educationalinfo") },
-//       { text: "Photo & Signature", icon: "fa fa-file-text", link: "#", onClick: () => handleMenuClick("PhotoSignature") },
-//       { text: "Selection of Subject", icon: "fa fa-file-text", link: "#", onClick: () => handleMenuClick("SelectionSubject") },
-//       { text: "Course Payment", icon: "fa fa-file-text", link: "#", onClick: () => handleMenuClick("CoursePayment") },
-//       { text: "Submit Application", icon: "fa fa-file-text", link: "#", onClick: () => handleMenuClick("SubmitApplication") },
-//       { text: "Exit to Main Dashboard", icon: "fa fa-file-text", link: "/studentdashboard" }
-//     ],
-//   };
-
-//   return (
-//     <div className="flex min-h-screen">
-//       {/* SidePanel on the left */}
-//       <div className="w-100 bg-gray-800 text-white">
-//         <SidePanel {...studentProps} />
-//       </div>
-
-//       {/* Main Content Area */}
-//       <div className="flex-1 p-6 bg-gray-100">
-//         <div className="mt-4 text-gray-600">
-//           {activeComponent === "PersonalInfo" && <Personalinfo />}
-//           {activeComponent === "EducationalInfo" && <Educationalinfo />}
-//           {/* {activeComponent === "PhotoSignature" && <PhotoSignature />} */}
-//           {/* {activeComponent === "SelectionSubject" && <SelectionSubject />} */}
-//           {/* {activeComponent === "CoursePayment" && <CoursePayment />} */}
-//           {/* {activeComponent === "SubmitApplication" && <SubmitApplication />} */}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Admission;
