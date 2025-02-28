@@ -6,7 +6,7 @@ import { showAlert } from "tailwind-toastify";
 function Login() {
   const [formData, setFormData] = useState({
     role: "",
-    mobileNumber: "",
+    identifier: "",
     password: "",
   });
 
@@ -20,16 +20,20 @@ function Login() {
     });
   };
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-      axios
-      .post("http://localhost:5000/signin", formData)
+    axios
+      .post("http://localhost:5000/signin", {
+        role: formData.role,
+        identifier: formData.identifier,
+        password: formData.password,
+      })
       .then((response) => {
         if (response.data.success) {
           setResponseMessage(response.data.message);
-          showAlert("success", "Success", "Login successful");  
-          localStorage.setItem("User Data", JSON.stringify(response.data));  
+          showAlert("success", "Success", "Login successful");
+          localStorage.setItem("User Data", JSON.stringify(response.data));
           if (response.data.role === "student") {
             window.location.href = "./studentdashboard";
           } else if (response.data.role === "teacher") {
@@ -46,9 +50,13 @@ function Login() {
       })
       .catch((error) => {
         setResponseMessage("An error occurred. Please try again later.");
-        showAlert("error", "Error", "An error occurred. Please try again later.");
+        showAlert(
+          "error",
+          "Error",
+          "An error occurred. Please try again later."
+        );
       });
-    };
+  };
 
   return (
     <div className="form-wrapper Login bg-gray-100 p-6 rounded-xl shadow-md max-w-lg mx-auto">
@@ -75,13 +83,13 @@ function Login() {
               htmlFor="mobileNumber"
               className="block text-sm font-medium text-gray-700"
             >
-              Mobile Number:
+              Mobile Number or Email:
             </label>
             <input
               type="text"
-              name="mobileNumber"
-              placeholder="Enter your mobile number"
-              value={formData.mobileNumber}
+              name="identifier"
+              placeholder="Enter your email or mobile number"
+              value={formData.identifier}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-lg"
               required
