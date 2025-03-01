@@ -4,6 +4,7 @@ import AdmissionApproval from "../components/Cap/AdmissionApproval";
 import CourseAdd from "../components/Cap/CourseAdd";
 import Dashboard from "../components/Cap/Dashboard";
 import CourseUpdate from "../components/Cap/CourseUpdate";
+import Footer from "../components/Footer";
 
 function CapDashboard() {
   const [AdmissionApprovalCheck, setAdmissionApproval] = useState(false);
@@ -134,23 +135,23 @@ function CapDashboard() {
   }
 
   return (
-    <div className="flex min-h-screen w-full">
-      {/* SidePanel on the left */}
-      <div className="w-60 bg-gray-800 text-white">
-        <SidePanel {...capProps} />
-      </div>
-      <div className="flex-1 p-2 bg-gray-100">
-        <div className="text-gray-600">
-          {AdmissionApprovalCheck ? <AdmissionApproval/> : null}
-          {DashboardCheck ? <Dashboard/> : null}
-          {CourseUpdateCheck ? <CourseUpdate /> : null}
-          {CourseAddCheck ? <CourseAdd /> : null}
-          {/* {Marksheet ? <Marksheet/> : null}
-           {AtktFailPass ? <AtktFailPass/> : null}
-           {Revaluation ? <Revaluation/> : null}
-           {Analysis ? <Analysis/> : null} */}
+    <div className="flex min-h-screen flex-col">
+      <div className="flex flex-1">
+        <div className="w-60 bg-gray-800 text-white">
+          <SidePanel {...capProps} />
+        </div>
+
+        <div className="flex-1 p-2 bg-gray-100">
+          <div className="text-gray-600">
+            {AdmissionApprovalCheck ? <AdmissionApproval /> : null}
+            {DashboardCheck ? <Dashboard /> : null}
+            {CourseUpdateCheck ? <CourseUpdate /> : null}
+            {CourseAddCheck ? <CourseAdd /> : null}
+          </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

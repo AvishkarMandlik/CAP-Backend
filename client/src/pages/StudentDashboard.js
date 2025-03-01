@@ -1,7 +1,7 @@
 import React from 'react';
 import SidePanel from '../components/SidePanel';
 import { useState } from 'react';
-import { redirect } from 'react-router-dom';
+import Footer from '../components/Footer';
 
 
 function StudentDashboard() {
@@ -51,6 +51,7 @@ function StudentDashboard() {
     return (
         <div>
             <SidePanel {...studentProps} />
+            <Footer />
         </div>
     );
 }

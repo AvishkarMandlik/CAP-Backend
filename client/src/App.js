@@ -8,8 +8,6 @@ import TeacherDashboard from './pages/TeacherDashboard';
 import CapDashboard from './pages/CapDashboard';
 import HallTicket from './components/HallTicket/HallTicket';
 import AdmissionForm from './pages/AdmissionForm';
-import PersonalInfo from './components/Student/Personalinfo';
-import Educationalinfo from './components/Student/Educationalinfo';
 
 function App() {
   return (
