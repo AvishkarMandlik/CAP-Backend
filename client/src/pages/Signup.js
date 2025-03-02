@@ -1,6 +1,7 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -19,8 +20,6 @@ function Signup() {
     terms: false,
   });
 
-  const [responseMessage, setResponseMessage] = useState("");
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -33,257 +32,245 @@ function Signup() {
     e.preventDefault();
 
     if (!formData.terms) {
-      setResponseMessage("Please agree to the terms and conditions.");
+      Swal.fire({
+        title: "Error",
+        text: "Please agree to the terms and conditions.",
+        icon: "error",
+        confirmButtonColor: "#1a202c", // Match black theme
+        confirmButtonText: "OK",
+      });
       return;
     }
 
     axios
       .post("http://localhost:5000/signup", formData)
       .then((response) => {
-        setResponseMessage(response.data.message);
+        if(response.data.success){
+        Swal.fire({
+          title: "Success!",
+          text: response.data.message,
+          icon: "success",
+          confirmButtonColor: "#1a202c", // Match black theme
+          confirmButtonText: "OK",
+        }).then(() => {
+          window.location.href = "/login";
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: response.data.message,
+          icon: "error",
+          confirmButtonColor: "#1a202c", // Match black theme
+          confirmButtonText: "OK",
+        });
+      }
       })
       .catch((error) => {
-        setResponseMessage("An error occurred. Please try again later." + JSON.stringify(error));
+        Swal.fire({
+          title: "Error",
+          text: error.response.data.message,
+          icon: "error",
+          confirmButtonColor: "#1a202c", // Match black theme
+          confirmButtonText: "OK",
+        });
       });
-      window.location.reload();
   };
 
   return (
-    <div className="form-wrapper Signup bg-gray-100 p-6 rounded-xl shadow-md max-w-lg mx-auto">
-      <form className="signupform" onSubmit={(e)=>{handleSubmit(e)}}>
-        <h2 className="text-2xl font-bold text-center mb-6">Signup</h2>
-
-        <select
-          id="mySelect"
-          name="role"
-          value={formData.role}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded-lg mb-4"
-        >
-          <option value="student">Student</option>
-          <option value="teacher">Teacher</option>
-          <option value="cap">Cap User</option>
-        </select>
-
-        <div className="container grid grid-cols-1 gap-4">
-          <div>
-            <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-              Last Name:
-            </label>
-            <input
-              type="text"
-              name="lastName"
-              placeholder="Last Name"
-              value={formData.lastName}
-              onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg"
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">
-              First Name:
-            </label>
-            <input
-              type="text"
-              name="firstName"
-              placeholder="First Name"
-              value={formData.firstName}
-              onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg"
-              required
-            />
-          </div>
-
-          {formData.role !== "teacher" && formData.role !== "cap" && (
-            <>
-              <div>
-                <label htmlFor="middle-name" className="block text-sm font-medium text-gray-700">
-                  Middle Name:
-                </label>
-                <input
-                  type="text"
-                  name="middleName"
-                  placeholder="Middle Name"
-                  value={formData.middleName}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded-lg"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="mother-name" className="block text-sm font-medium text-gray-700">
-                  Mother Name:
-                </label>
-                <input
-                  type="text"
-                  name="motherName"
-                  placeholder="Mother Name"
-                  value={formData.motherName}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded-lg"
-                  required
-                />
-              </div>
-
-              <div>
-                <label htmlFor="dob" className="block text-sm font-medium text-gray-700">
-                  DOB:
-                </label>
-                <input
-                  type="date"
-                  name="dob"
-                  value={formData.dob}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded-lg"
-                />
-              </div>
-            </>
-          )}
-
-          <div>
-            <label htmlFor="mobileNumber" className="block text-sm font-medium text-gray-700">
-              Mobile Number:
-            </label>
-            <input
-              type="text"
-              name="mobileNumber"
-              placeholder="Number"
-              value={formData.mobileNumber}
-              onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg"
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email ID:
-            </label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email ID"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="course" className="block text-sm font-medium text-gray-700">
-              Course:
-            </label>
-            <select
-              name="course"
-              value={formData.course}
-              onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg"
-            >
-              <option value="art">Arts</option>
-              <option value="commerce">Commerce</option>
-              <option value="science">Science</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="mt-4">
-          <label htmlFor="academic_year" className="block text-sm font-medium text-gray-700">
-            Academic Year:
-          </label>
-          <select
-            name="year"
-            id="academic_year"
-            value={formData.year}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-lg"
-          >
-            <option value="First Year">First Year</option>
-            <option value="Second Year">Second Year</option>
-            <option value="Third Year">Third Year</option>
-            <option value="Fourth Year">Fourth Year</option>
-          </select>
-        </div>
-
-        <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">Gender:</label>
-          <div className="flex items-center gap-4">
-            <div>
-              <input
-                type="radio"
-                name="gender"
-                value="male"
-                id="male"
-                checked={formData.gender === "male"}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              <label htmlFor="male">Male</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="gender"
-                value="female"
-                id="female"
-                checked={formData.gender === "female"}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              <label htmlFor="female">Female</label>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-4">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-            Create Password:
-          </label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-lg"
-          />
-        </div>
-
-        <div className="remember mt-4">
-          <input
-            type="checkbox"
-            id="terms"
-            name="terms"
-            checked={formData.terms}
-            onChange={handleChange}
-            className="mr-2"
-          />
-          <label htmlFor="terms" className="text-sm">
-            I agree to the terms & conditions
-          </label>
-        </div>
-
-        <button
-          className="button w-full bg-blue-600 text-white py-2 px-4 rounded-lg mt-6 hover:bg-blue-700"
-          type="submit"
-        >
-          Signup
-        </button>
-
-        {responseMessage && (
-          <p className="text-center mt-4 text-sm text-red-600">{responseMessage}</p>
-        )}
-
-        <div className="Signup-link text-center mt-4">
-          <p className="text-sm">
-            Already have an account?{" "}
-            <Link to="/login" className="text-blue-600 hover:underline">
-              Log In
-            </Link>
+    <div className="min-h-screen bg-gradient-to-r from-gray-50 to-gray-100 flex items-center justify-center p-6">
+      <div className="bg-white rounded-xl shadow-2xl overflow-hidden max-w-4xl w-full flex">
+        {/* Information Section */}
+        <div className="hidden md:block w-1/2 bg-gradient-to-r from-gray-800 to-gray-900 p-8 flex flex-col justify-center">
+          <h2 className="text-3xl font-bold text-white mb-4">Rakini Softech Private Limited</h2>
+          <p className="text-gray-300 mb-4">
+            Rakini Softech is a leading development company specializing in creating professional ERP
+            solutions tailored for educational institutions. Our platform empowers students,
+            teachers, and administrators to manage their tasks efficiently and effectively.
+          </p>
+          <p className="text-gray-300">
+            Whether you're a student, teacher, or CAP user, sign up today to experience a seamless
+            and integrated ERP system designed to meet your needs.
           </p>
         </div>
-      </form>
+
+        {/* Form Section */}
+        <div className="w-full md:w-1/2 p-8">
+          <p className="text-3xl font-bold text-gray-800 mb-4 text-center">
+            Create an account to access our ERP system
+          </p>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white text-gray-900"
+            >
+              <option value="">Select Role</option>
+              <option value="student">Student</option>
+              <option value="teacher">Teacher</option>
+              <option value="cap">Cap User</option>
+            </select>
+
+            {formData.role && (
+              <div className="grid grid-cols-1 gap-4">
+                <input
+                  type="text"
+                  name="lastName"
+                  placeholder="Last Name"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white text-gray-900"
+                  required
+                />
+                <input
+                  type="text"
+                  name="firstName"
+                  placeholder="First Name"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white text-gray-900"
+                  required
+                />
+
+                {formData.role === "student" && (
+                  <>
+                    <input
+                      type="text"
+                      name="middleName"
+                      placeholder="Middle Name"
+                      value={formData.middleName}
+                      onChange={handleChange}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white text-gray-900"
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="motherName"
+                      placeholder="Mother Name"
+                      value={formData.motherName}
+                      onChange={handleChange}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white text-gray-900"
+                      required
+                    />
+                    <input
+                      type="date"
+                      name="dob"
+                      value={formData.dob}
+                      onChange={handleChange}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white text-gray-900"
+                    />
+                  </>
+                )}
+
+                <input
+                  type="text"
+                  name="mobileNumber"
+                  placeholder="Mobile Number"
+                  value={formData.mobileNumber}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white text-gray-900"
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email ID"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white text-gray-900"
+                />
+
+                {formData.role === "student" && (
+                  <>
+                    <select
+                      name="course"
+                      value={formData.course}
+                      onChange={handleChange}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white text-gray-900"
+                    >
+                      <option value="">Select Course</option>
+                      <option value="art">Arts</option>
+                      <option value="commerce">Commerce</option>
+                      <option value="science">Science</option>
+                    </select>
+                    <select
+                      name="year"
+                      value={formData.year}
+                      onChange={handleChange}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white text-gray-900"
+                    >
+                      <option value="">Select Year</option>
+                      <option value="First Year">First Year</option>
+                      <option value="Second Year">Second Year</option>
+                      <option value="Third Year">Third Year</option>
+                      <option value="Fourth Year">Fourth Year</option>
+                    </select>
+                  </>
+                )}
+
+                <div className="flex items-center gap-4">
+                  <label className="flex items-center text-gray-900">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="male"
+                      checked={formData.gender === "male"}
+                      onChange={handleChange}
+                      className="mr-2"
+                    />
+                    Male
+                  </label>
+                  <label className="flex items-center text-gray-900">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="female"
+                      checked={formData.gender === "female"}
+                      onChange={handleChange}
+                      className="mr-2"
+                    />
+                    Female
+                  </label>
+                </div>
+
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Create Password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white text-gray-900"
+                />
+
+                <label className="flex items-center text-gray-900">
+                  <input
+                    type="checkbox"
+                    name="terms"
+                    checked={formData.terms}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  I agree to the terms & conditions
+                </label>
+
+                <button
+                  type="submit"
+                  className="w-full bg-gray-900 text-white py-3 rounded-lg hover:bg-gray-800 hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                >
+                  Signup
+                </button>
+              </div>
+            )}
+
+            <p className="text-center text-sm text-gray-700">
+              Already have an account?{" "}
+              <Link to="/login" className="text-gray-900 hover:underline">
+                Log In
+              </Link>
+            </p>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
