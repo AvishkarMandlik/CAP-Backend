@@ -9,6 +9,7 @@ import CapDashboard from './pages/CapDashboard';
 import HallTicket from './components/HallTicket/HallTicket';
 import AdmissionForm from './pages/AdmissionForm';
 
+
 function App() {
   return (
     <BrowserRouter>

@@ -1,13 +1,12 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Pdftest from './Pdftest'
+import Footer from '../components/Footer'
 
 function Home() {
   return (
     <div>
-      {/* <Navbar /> */}
-      <Pdftest/>
-    </div>
+    <Navbar />
     <Footer />
   </div>
   
