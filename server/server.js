@@ -1,12 +1,12 @@
 //import statements
 const express = require("express");
 const app = express();
-const bodyparser = require("body-parser");
 const cors = require('cors');
 const teacher = require("./teacherRoutes.js");
 const cap = require("./capRoutes.js");
 const student = require("./studentRoutes.js");
 const pages = require("./pagesRoute.js");
+const test = require("./TestRoutes.js");
 
 require("dotenv").config();
 const { connect, disconnect } = require("./mongoConn.js");
@@ -16,9 +16,12 @@ app.use("/teacher", teacher);
 app.use("/cap", cap);
 app.use("/student", student);
 app.use("/pages", pages);
+app.use("/test", test);
 
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({ extended: true }));
+const bodyParser = require('body-parser');
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
 app.use(express.static("public"));
 
 //routes
@@ -186,6 +189,20 @@ app.post("/signin", async (req, res) => {
 //     res.json({ loggedIn: false ,id:null});
 //   }
 // });
+
+app.get("/counter", async (req, res) => {
+  console.log("counter called")
+  const db = await connect();
+  const collection = db.collection("Counter");
+  const counter = await collection.findOneAndUpdate(
+    {label: "counter"},
+    { $inc: { AppNo: 1 } },
+    { returnOriginal: false }
+  );
+  console.log(counter);
+  await disconnect();
+  res.json(counter);
+});
 
 app.post("/logout", (req, res) => {
   res.clearCookie("session_token");

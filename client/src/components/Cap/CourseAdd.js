@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Year from "./Subject/Year";
 import AddingUI from "./Subject/AddingUI";
 import axios from "axios";
+import { showAlert } from "tailwind-toastify";
 
 const CourseAdd = () => {
   const [level, setLevel] = useState("undergraduate");
@@ -18,6 +19,7 @@ const CourseAdd = () => {
   const [year5, setYear5] = useState(false);
 
   const [courses, setCourses] = useState({});
+  const [success,setSuccess] = useState(true);
 
   const [newSub, setNewSub] = useState({
     name: "",
@@ -120,11 +122,18 @@ const CourseAdd = () => {
     axios
       .post("http://localhost:5000/cap/AddCourse", updatedResult) // ✅ Uses latest data
       .then((response) => console.log("Success:", response.data))
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        console.error("Error:", error)});
     axios
       .post("http://localhost:5000/cap/AddSubjects", updatedResult) // ✅ Uses latest data
-      .then((response) => console.log("Success:", response.data))
-      .catch((error) => console.error("Error:", error));
+      .then((response) => {
+        showAlert("success", "Success", "Course Added Successfully");
+        console.log("Success:", response.data)})
+      .catch((error) => {
+        showAlert("error", "Error", "An error occurred. Please try again later.");
+        console.error("Error:", error)
+      });
+    
   }
 
   function AddSub(func, sem, sub) {
@@ -190,7 +199,7 @@ const CourseAdd = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8 overflow-x-auto">
+    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8 overflow-x-auto h-100">
       <div className="mb-6 flex flex-wrap gap-4">
         {/* Select Education Level */}
         <div className="flex-1">

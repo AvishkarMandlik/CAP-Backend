@@ -12,6 +12,7 @@ import PersonalInfo from './components/Student/Personalinfo';
 import Educationalinfo from './components/Student/Educationalinfo';
 import InternalMarks from './components/Teacher/InternalMarks';
 import ExternalMarks from './components/Teacher/ExternalMarks';
+import ApplicationForm from './pages/ApplicationForm';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route path="/capdashboard" element={<CapDashboard />} />
       <Route path="/hallticket" element={<HallTicket />} />
       <Route path="/studentdashboard/admissionform" element={<AdmissionForm />} />
+      <Route path="/studentdashboard/admissionform/print" element={<ApplicationForm />} />
       <Route path="/studentdashboard/admissionform/personalinfo" element={<PersonalInfo />} />
       <Route path="/studentdashboard/admissionform/educationalinfo" element={<Educationalinfo />} />
       <Route path="/teacherdashboard/internalmarks" element={<InternalMarks />} />

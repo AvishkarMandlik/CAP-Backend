@@ -3,6 +3,7 @@ const bodyparser = require("body-parser");
 const { connect, disconnect } = require("./mongoConn.js");
 const router = express.Router();
 
+
 router.use(bodyparser.json());
 router.get("/Teacherverification", async (req, res) => {
     const db = await connect();
@@ -107,7 +108,6 @@ router.post("/AddSubjects", async (req,res) => {
 })
 
 router.get("/GetCourses", async (req,res) => {
-  console.log("called");
   const db = await connect();
   const collection = db.collection("Courses");
   const getCourses = await collection.findOne({});

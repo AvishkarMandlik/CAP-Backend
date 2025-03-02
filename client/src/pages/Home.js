@@ -1,10 +1,12 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
+import Pdftest from './Pdftest'
 
 function Home() {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
+      <Pdftest/>
     </div>
   )
 }

@@ -1,15 +1,18 @@
 import SidePanel from "../components/SidePanel";
 import { useState } from "react";
+import Dashboard from "../components/Student/Dashboard";
 import PersonalInfo from "../components/Student/Personalinfo";
 import EducationalInfo from "../components/Student/Educationalinfo";
 import PhotoSignature from "../components/Student/PhotoSignature";
 import SelectionSubject from "../components/Student/SelectionSubject";
 import CoursePayment from "../components/Student/CoursePayment";
+import SubmitForm from "../components/Student/SubmitForm";
+
 // import SubmitApplication from '../components/Student/SubmitApplication';
 
 function Admission() {
   const [DashboardCheck, setDashboard] = useState(true);
-  const [PersonalInfoCheck, setPersonalInfo] = useState(true);
+  const [PersonalInfoCheck, setPersonalInfo] = useState(false);
   const [EducationalInfoCheck, setEducationInfo] = useState(false);
   const [PhotoSignatureCheck, setPhotoSignature] = useState(false);
   const [SelectionSubjectCheck, setSelectionSubject] = useState(false);
@@ -54,7 +57,7 @@ function Admission() {
         },
       },
       {
-        text: "Course Payment",
+        text: "Make Payment",
         icon: "fa fa-file-text",
         callbackfunc: () => {
           ManagePage("CoursePayment");
@@ -110,17 +113,18 @@ function Admission() {
   return (
     <div className="flex min-h-screen">
       {/* SidePanel on the left */}
-      <div className="w-100 bg-gray-800 text-white">
+      <div className="w-70 bg-gray-800 text-white">
         <SidePanel {...studentProps} />
       </div>
       <div className="flex-1 p-2 bg-gray-100">
         <div className="text-gray-600">
-          {PersonalInfoCheck ? <PersonalInfo /> : null}
-          {EducationalInfoCheck ? <EducationalInfo /> : null}
-          {PhotoSignatureCheck ? <PhotoSignature /> : null}
-          {SelectionSubjectCheck ? <SelectionSubject /> : null}
+          {DashboardCheck ? <Dashboard /> : null}
+          {PersonalInfoCheck ? <PersonalInfo func={ManagePage}/> : null}
+          {EducationalInfoCheck ? <EducationalInfo func={ManagePage}/> : null}
+          {PhotoSignatureCheck ? <PhotoSignature func={ManagePage}/> : null}
+          {SelectionSubjectCheck ? <SelectionSubject func={ManagePage}/> : null}
           {CoursePaymentCheck ? <CoursePayment /> : null}
-          {/* {SubmitApplicationCheck ? <SubmitApplication/> : null}  */}
+          {SubmitApplicationCheck ? <SubmitForm/> : null} 
         </div>
       </div>
     </div>
