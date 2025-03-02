@@ -8,6 +8,9 @@ function Home() {
       {/* <Navbar /> */}
       <Pdftest/>
     </div>
+    <Footer />
+  </div>
+  
   )
 }
 

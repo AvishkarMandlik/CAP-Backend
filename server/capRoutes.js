@@ -114,5 +114,23 @@ router.get("/GetCourses", async (req,res) => {
   res.json(getCourses);
 });
 
+// this is teacherDashboard entry for Marks and Courses Ans subject selection
+router.post("/addEntriesforteacher", async (req, res) => {
+      const db = await connect();
+      const collection = db.collection("TeacherallocatesSubjectEntries");
+
+      const { punCode, appointmentID, pattern, subject, endDate, batchNo } = req.body;
+      const updateResult = await collection.insertOne({
+          punCode,
+          appointmentID,
+          pattern,
+          subject,
+          endDate,
+          batchNo
+      });
+      res.send(updateResult);
+});
+
+
 
 module.exports = router

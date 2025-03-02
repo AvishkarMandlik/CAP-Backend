@@ -1,24 +1,87 @@
-import React from 'react';
-import SidePanel from '../components/SidePanel';
+import React, { useState } from "react";
+import SidePanel from "../components/SidePanel";
+import InternalMarksEntry from "../components/Teacher/InternalMarksEntry";
+import EditInternalMarks from "../components/Teacher/EditInternalMarks";
+import ExternalMarksEntry from "../components/Teacher/ExternalMarksEntry";
+import EditExternalMarks from "../components/Teacher/EditExternalMarks";
+import ViewStatus from "../components/Teacher/ViewStatus";
+import TeacherMarksDashboard from "../components/Teacher/TeacherMarksDashboard";
+import Footer from "../components/Footer";
 
 function TeacherDashboard() {
-    const teacherProps = {
-        title: "TEACHER DASHBOARD",
-        items: [
-            { text: "Int. Examiner - Marks Entry and Absentee", icon: "fa-solid fa-pen-to-square", link: "#" },
-            { text: "Int. Examiner - Edit Permission Internal", icon: "fa-solid fa-pen-to-square", link: "#" },
-            { text: "Ext. Examiner - Marks Entry and Absentee", icon: "fa-solid fa-pen-to-square", link: "#" },
-            { text: "Ext. Examiner - Edit Permission External", icon: "fa-solid fa-pen-to-square", link: "#" },
-            { text: "View Status", icon: "fa-solid fa-square-poll-vertical", link: "#" }
-        ],
-        content: "Welcome, teacher! Manage your tasks here."
-    };
+  const [activeComponent, setActiveComponent] = useState(
+    "TeacherMarksDashboard"
+  );
 
-    return (
-        <div>
-            <SidePanel {...teacherProps} />
+  const teacherProps = {
+    title: "TEACHER DASHBOARD",
+    items: [
+      {
+        text: "Teacher Marks Dashboard",
+        icon: "fa-solid fa-chalkboard-teacher",
+        callbackfunc: () => setActiveComponent("TeacherMarksDashboard"),
+      },
+      {
+        text: "Int. Examiner - Marks Entry and Absentee",
+        icon: "fa-solid fa-pen-to-square",
+        callbackfunc: () => setActiveComponent("InternalMarksEntry"),
+      },
+      {
+        text: "Int. Examiner - Edit Permission Internal",
+        icon: "fa-solid fa-pen-to-square",
+        callbackfunc: () => setActiveComponent("EditInternalMarks"),
+      },
+      {
+        text: "Ext. Examiner - Marks Entry and Absentee",
+        icon: "fa-solid fa-pen-to-square",
+        callbackfunc: () => setActiveComponent("ExternalMarksEntry"),
+      },
+      {
+        text: "Ext. Examiner - Edit Permission External",
+        icon: "fa-solid fa-pen-to-square",
+        callbackfunc: () => setActiveComponent("EditExternalMarks"),
+      },
+      {
+        text: "View Status",
+        icon: "fa-solid fa-square-poll-vertical",
+        callbackfunc: () => setActiveComponent("ViewStatus"),
+      },
+    ],
+    content: "Welcome, teacher! Manage your tasks here.",
+  };
+
+  const renderActiveComponent = () => {
+    switch (activeComponent) {
+      case "TeacherMarksDashboard":
+        return <TeacherMarksDashboard />;
+      case "InternalMarksEntry":
+        return <InternalMarksEntry />;
+      case "EditInternalMarks":
+        return <EditInternalMarks />;
+      case "ExternalMarksEntry":
+        return <ExternalMarksEntry />;
+      case "EditExternalMarks":
+        return <EditExternalMarks />;
+      case "ViewStatus":
+        return <ViewStatus />;
+      default:
+        return <div>Select an option from the sidebar</div>;
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen flex-col">
+      <div className="flex flex-1">
+        <div className="w-64 bg-gray-800 text-white">
+          <SidePanel {...teacherProps} />
         </div>
-    );
+
+        <div className="flex-1 p-6 bg-gray-100">{renderActiveComponent()}</div>
+      </div>
+
+      <Footer />
+    </div>
+  );
 }
 
 export default TeacherDashboard;

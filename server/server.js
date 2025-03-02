@@ -125,21 +125,30 @@ app.post("/signin", async (req, res) => {
   if (req.body.role == "student") {
     const collection = db.collection("StudentAccounts");
     checkemail = await collection.findOne({
-      mobileNumber: req.body.mobileNumber,
+      $or: [
+        { mobileNumber: req.body.identifier  },
+        { email: req.body.identifier  }
+      ],
       password: req.body.password
     });
     console.log("searching in students");
   } else if (req.body.role == "teacher") {
     const collection = db.collection("TeacherAccounts");
     checkemail = await collection.findOne({
-      mobileNumber: req.body.mobileNumber,
-      password: req.body.password,
+      $or: [
+        { mobileNumber: req.body.identifier  },
+        { email: req.body.identifier  }
+      ],
+      password: req.body.password
     });
   } else if (req.body.role == "cap") {
     const collection = db.collection("CapAccounts");
     checkemail = await collection.findOne({
-      mobileNumber: req.body.mobileNumber,
-      password: req.body.password,
+      $or: [
+        { mobileNumber: req.body.identifier  },
+        { email: req.body.identifier  }
+      ],
+      password: req.body.password
     });
   } else {
     disconnect();
@@ -169,7 +178,8 @@ app.post("/signin", async (req, res) => {
     console.log(checkemail);
     res.json({
       message: "Login successful",
-      mobileNumber: req.body.mobileNumber,
+      mobileNumber: checkemail.mobileNumber,
+      email: checkemail.email,
       role: req.body.role,
       name: checkemail.firstName + " " + checkemail.lastName,
       success: true,

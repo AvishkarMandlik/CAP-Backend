@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-function ExternalMarks() {
+function EditInternalMarks() {
     const [marks, setMarks] = useState([]);
-    const [formData, setFormData] = useState({
-        studentName: "",
-        subName: "",
-        marks: ""
-    });
     const [editingMark, setEditingMark] = useState(null);
     const [updatedMark, setUpdatedMark] = useState("");
 
@@ -16,19 +11,8 @@ function ExternalMarks() {
     }, []);
 
     const fetchMarks = async () => {
-        const response = await axios.get("http://localhost:5000/teacher/ExternalMark");
+        const response = await axios.get("http://localhost:5000/teacher/InternalMark");
         setMarks(response.data.data);
-    };
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        await axios.post("http://localhost:5000/teacher/ExternalMarkEntry", formData);
-        setFormData({ studentName: "", subName: "", marks: "" });
-        fetchMarks();
     };
 
     const handleEdit = (mark) => {
@@ -38,26 +22,20 @@ function ExternalMarks() {
 
     const handleUpdate = async () => {
         if (!editingMark) return;
-        await axios.put(`http://localhost:5000/teacher/ExternalMarkById/${editingMark._id}`, { marks: updatedMark });
+        await axios.put(`http://localhost:5000/teacher/InternalMarkById/${editingMark._id}`, { marks: updatedMark });
         setEditingMark(null);
         setUpdatedMark("");
         fetchMarks();
     };
 
     const handleDelete = async (id) => {
-        await axios.delete(`http://localhost:5000/teacher/ExternalMark/${id}`);
+        await axios.delete(`http://localhost:5000/teacher/InternalMark/${id}`);
         fetchMarks();
     };
 
     return (
         <div className="p-4">
-            <h2 className="text-xl font-bold">External Marks</h2>
-            <form onSubmit={handleSubmit} className="my-4">
-                <input type="text" name="studentName" placeholder="Student Name" value={formData.studentName} onChange={handleChange} className="border p-2 m-2" required />
-                <input type="text" name="subName" placeholder="Subject Name" value={formData.subName} onChange={handleChange} className="border p-2 m-2" required />
-                <input type="number" name="marks" placeholder="Marks" value={formData.marks} onChange={handleChange} className="border p-2 m-2" required />
-                <button type="submit" className="bg-blue-500 text-white p-2">Add Marks</button>
-            </form>
+            <h2 className="text-xl font-bold">Edit Internal Marks</h2>
             <table className="border-collapse border w-full">
                 <thead>
                     <tr>
@@ -100,4 +78,4 @@ function ExternalMarks() {
     );
 }
 
-export default ExternalMarks;
+export default EditInternalMarks;

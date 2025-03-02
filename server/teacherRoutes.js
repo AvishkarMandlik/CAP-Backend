@@ -152,6 +152,20 @@ router.delete("/ExternalMark/:id", async (req, res) => {
     });
 });
 
+// This is for getting the allocated subjects for a particular teacher adding marks entry
+router.get("/getsubjectEntriesforteacher", async (req, res) => {
+        const db = await connect();
+        const collection = db.collection("TeacherallocatesSubjectEntries");
+
+        const entries = await collection.find({}).toArray();
+
+        res.json({
+            status: true,
+            message: "Entries fetched Successfully",
+            data: entries
+        });
+});
+
 
 module.exports = router
 
