@@ -35,13 +35,14 @@ const SubmitForm = () => {
   }, []);
 
   useEffect(() => {
+    const info = JSON.parse(localStorage.getItem("personalInfo")).course;
     const storedSubjects = localStorage.getItem("Subjects");
     if (storedSubjects) {
       setSubjectCodes(JSON.parse(storedSubjects));
       axios
         .post("http://localhost:5000/student/GetSubjects", {
-          course: ["Postgraduate", "MSc", "Computer Science"],
-          year: "Second Year",
+          course: [info[0], info[1], info[2]],
+          year: info[3],
         })
         .then((response) => {
           console.log(response.data);
