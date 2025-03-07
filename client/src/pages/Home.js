@@ -1,8 +1,14 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import { useEffect } from "react";
+import { loginRequired } from "../utils/loginRequired";
 
 function Home() {
+
+  useEffect(() => {
+    loginRequired();
+  }, []);
   return (
     <div className="min-h-screen flex flex-col">
     <Navbar />
