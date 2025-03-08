@@ -182,13 +182,13 @@ const CourseAdd = () => {
         console.log(filteredData);
         setCourses(filteredData);
 
-        const defaultLevel = Object.keys(filteredData)[0] || "undergraduate";
+        const defaultLevel = Object.keys(filteredData)[0] || "createnew";
         const defaultCourse = Object.keys(filteredData[defaultLevel] || {})[0] || "new";
         const defaultStream = Object.keys(filteredData[defaultLevel]?.[defaultCourse] || {})[0] || "new";
 
-        setLevel(defaultLevel);
-        setCourse(defaultCourse);
-        setStream(defaultStream);
+        setLevel(defaultLevel||"createnew");
+        setCourse(defaultCourse||"new");
+        setStream(defaultStream||"new");
         setLoading(false);
       })
       .catch(error => console.error("Error fetching courses:", error));

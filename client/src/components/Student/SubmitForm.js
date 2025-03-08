@@ -35,13 +35,14 @@ const SubmitForm = () => {
   }, []);
 
   useEffect(() => {
+    const info = JSON.parse(localStorage.getItem("personalInfo")).course;
     const storedSubjects = localStorage.getItem("Subjects");
     if (storedSubjects) {
       setSubjectCodes(JSON.parse(storedSubjects));
       axios
         .post("http://localhost:5000/student/GetSubjects", {
-          course: ["Postgraduate", "MSc", "Computer Science"],
-          year: "Second Year",
+          course: [info[0], info[1], info[2]],
+          year: info[3],
         })
         .then((response) => {
           console.log(response.data);
@@ -80,6 +81,11 @@ const SubmitForm = () => {
               "Success",
               "Application submitted successfully."
             );
+            localStorage.removeItem("personalInfo");
+            localStorage.removeItem("EducationalInfo");
+            localStorage.removeItem("PhotoSignature");
+            localStorage.removeItem("Subjects");
+            localStorage.removeItem("CoursePayment");
           } else {
             showAlert("error", "Error", "Application submission failed.");
           }
@@ -435,7 +441,12 @@ const SubmitForm = () => {
       </div>
       {/* Centered Submit Button */}
       <div className="flex justify-center mt-8">
-        <button className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-8 py-3 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300 cursor-pointer hover:text-yellow-300 active:scale-95" onClick={()=>{handleSubmit()}}>
+        <button
+          className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-8 py-3 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300 cursor-pointer hover:text-yellow-300 active:scale-95"
+          onClick={() => {
+            handleSubmit();
+          }}
+        >
           Submit Form
         </button>
       </div>
