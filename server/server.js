@@ -122,56 +122,61 @@ app.post("/signin", async (req, res) => {
 
   let checkemail = false;
   const db = await connect();
+  let collection;
+
+  // Determine the collection based on the role
   if (req.body.role == "student") {
-    const collection = db.collection("StudentAccounts");
-    checkemail = await collection.findOne({
-      $or: [
-        { mobileNumber: req.body.identifier  },
-        { email: req.body.identifier  }
-      ],
-      password: req.body.password
-    });
-    console.log("searching in students");
+    collection = db.collection("StudentAccounts");
   } else if (req.body.role == "teacher") {
-    const collection = db.collection("TeacherAccounts");
-    checkemail = await collection.findOne({
-      $or: [
-        { mobileNumber: req.body.identifier  },
-        { email: req.body.identifier  }
-      ],
-      password: req.body.password
-    });
+    collection = db.collection("TeacherAccounts");
   } else if (req.body.role == "cap") {
-    const collection = db.collection("CapAccounts");
-    checkemail = await collection.findOne({
-      $or: [
-        { mobileNumber: req.body.identifier  },
-        { email: req.body.identifier  }
-      ],
-      password: req.body.password
-    });
+    collection = db.collection("CapAccounts");
   } else {
     disconnect();
     return res.json({
       success: false,
-      message: "Some Error Occured Try Again Later",
+      message: "Some Error Occurred. Try Again Later.",
     });
   }
+
+  // Check if the identifier (email or mobile number) exists in the database
+  const identifierExists = await collection.findOne({
+    $or: [
+      { mobileNumber: req.body.identifier },
+      { email: req.body.identifier },
+    ],
+  });
+
+  if (!identifierExists) {
+    // Determine whether the identifier is an email or mobile number
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(req.body.identifier);
+    const message = isEmail
+      ? "Email does not exist."
+      : "Mobile number does not exist.";
+
+    return res.json({
+      success: false,
+      message: message,
+    });
+  }
+
+  // If the identifier exists, check the password
+  checkemail = await collection.findOne({
+    $or: [
+      { mobileNumber: req.body.identifier },
+      { email: req.body.identifier },
+    ],
+    password: req.body.password,
+  });
+
   console.log(checkemail);
   if (checkemail) {
-    // const sessionToken = req.body.mobilenumber;
-
-    // Set the token as a cookie
-    // res.cookie("session_token", sessionToken, {
-    //   httpOnly: true, // Prevents JavaScript access to the cookie
-    //   secure: true, // Use only in HTTPS environments
-    //   maxAge: 2 * 60 * 1000, // 1 day expiration
-    // });
+    // Check if the account is verified (for teachers and CAP users)
     if (req.body.role == "teacher" || req.body.role == "cap") {
       if (!checkemail.verify) {
         return res.json({
           success: false,
-          message: "Account Not Verified Yet Please Contact Your Administrator",
+          message: "Account Not Verified Yet. Please Contact Your Administrator.",
         });
       }
     }
@@ -185,9 +190,85 @@ app.post("/signin", async (req, res) => {
       success: true,
     });
   } else {
-    return res.json({ message: "Invalid credentials", success: false });
+    // If the identifier exists but the password does not match
+    return res.json({
+      success: false,
+      message: "Password is incorrect.",
+    });
   }
 });
+
+// app.post("/signin", async (req, res) => {
+//   console.log(req.body);
+
+//   let checkemail = false;
+//   const db = await connect();
+//   if (req.body.role == "student") {
+//     const collection = db.collection("StudentAccounts");
+//     checkemail = await collection.findOne({
+//       $or: [
+//         { mobileNumber: req.body.identifier  },
+//         { email: req.body.identifier  }
+//       ],
+//       password: req.body.password
+//     });
+//     console.log("searching in students");
+//   } else if (req.body.role == "teacher") {
+//     const collection = db.collection("TeacherAccounts");
+//     checkemail = await collection.findOne({
+//       $or: [
+//         { mobileNumber: req.body.identifier  },
+//         { email: req.body.identifier  }
+//       ],
+//       password: req.body.password
+//     });
+//   } else if (req.body.role == "cap") {
+//     const collection = db.collection("CapAccounts");
+//     checkemail = await collection.findOne({
+//       $or: [
+//         { mobileNumber: req.body.identifier  },
+//         { email: req.body.identifier  }
+//       ],
+//       password: req.body.password
+//     });
+//   } else {
+//     disconnect();
+//     return res.json({
+//       success: false,
+//       message: "Some Error Occured Try Again Later",
+//     });
+//   }
+//   console.log(checkemail);
+//   if (checkemail) {
+//     // const sessionToken = req.body.mobilenumber;
+
+//     // Set the token as a cookie
+//     // res.cookie("session_token", sessionToken, {
+//     //   httpOnly: true, // Prevents JavaScript access to the cookie
+//     //   secure: true, // Use only in HTTPS environments
+//     //   maxAge: 2 * 60 * 1000, // 1 day expiration
+//     // });
+//     if (req.body.role == "teacher" || req.body.role == "cap") {
+//       if (!checkemail.verify) {
+//         return res.json({
+//           success: false,
+//           message: "Account Not Verified Yet Please Contact Your Administrator",
+//         });
+//       }
+//     }
+//     console.log(checkemail);
+//     res.json({
+//       message: "Login successful",
+//       mobileNumber: checkemail.mobileNumber,
+//       email: checkemail.email,
+//       role: req.body.role,
+//       name: checkemail.firstName + " " + checkemail.lastName,
+//       success: true,
+//     });
+//   } else {
+//     return res.json({ message: "Invalid credentials", success: false });
+//   }
+// });
 
 // app.get("/check-session", (req, res) => {
 //   const sessionToken = req.cookies.session_token;

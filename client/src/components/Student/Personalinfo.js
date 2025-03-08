@@ -34,7 +34,7 @@ const PersonalInfo = ({ func }) => {
   const [bloodGroup, setBloodGroup] = useState("");
   const [aadharNumber, setAadharNumber] = useState("");
   const [abcid, setAbcid] = useState("");
-  const [courses, setCourses] = useState({});
+  const [courses, setCourses] = useState(null);
   const [loading, setLoading] = useState(true);
 
   function loadData(data) {
@@ -77,17 +77,26 @@ const PersonalInfo = ({ func }) => {
           .reduce((acc, key) => ({ ...acc, [key]: response.data[key] }), {});
         console.log(filteredData);
         setCourses(filteredData);
+
         const data = JSON.parse(localStorage.getItem("personalInfo"));
         if (data) {
           loadData(data);
         }
-        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
-        setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    if (courses){
+      setCourse(Object.keys(courses)[0]);
+      setStream(Object.keys(courses[Object.keys(courses)[0]])[0]);
+      setLoading(false);
+    }
+  }, [courses]);
+
+  useEffect(() => {console.log(level, course, stream, year)},[loading]);
 
   function saveNext() {
     const personalInfo = {

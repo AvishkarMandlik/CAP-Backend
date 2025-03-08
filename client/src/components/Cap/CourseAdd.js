@@ -176,23 +176,38 @@ const CourseAdd = () => {
   useEffect(() => {
     axios.get("http://localhost:5000/cap/GetCourses")
       .then((response) => {
+        if (!response.data || typeof response.data !== "object") {
+          console.error("Invalid data format received:", response.data);
+          setLoading(false);
+          return;
+        }
+  
         const filteredData = Object.keys(response.data)
           .filter(key => key !== "_id") // ✅ Remove `_id` field from selection
           .reduce((acc, key) => ({ ...acc, [key]: response.data[key] }), {});
+  
         console.log(filteredData);
         setCourses(filteredData);
-
-        const defaultLevel = Object.keys(filteredData)[0] || "createnew";
-        const defaultCourse = Object.keys(filteredData[defaultLevel] || {})[0] || "new";
-        const defaultStream = Object.keys(filteredData[defaultLevel]?.[defaultCourse] || {})[0] || "new";
-
-        setLevel(defaultLevel||"createnew");
-        setCourse(defaultCourse||"new");
-        setStream(defaultStream||"new");
-        setLoading(false);
+  
+        const levels = Object.keys(filteredData);
+        const defaultLevel = levels.length > 0 ? levels[0] : "undergraduate";
+  
+        const courses = Object.keys(filteredData[defaultLevel] || {});
+        const defaultCourse = courses.length > 0 ? courses[0] : "new";
+  
+        const streams = Object.keys(filteredData[defaultLevel]?.[defaultCourse] || {});
+        const defaultStream = streams.length > 0 ? streams[0] : "new";
+  
+        setLevel(defaultLevel);
+        setCourse(defaultCourse);
+        setStream(defaultStream);
       })
-      .catch(error => console.error("Error fetching courses:", error));
+      .catch(error => {
+        console.error("Error fetching courses:", error);
+      })
+      .finally(() => setLoading(false)); // ✅ Ensure loading state is updated even if an error occurs
   }, []);
+  
 
   if (loading) {
     return <div className="flex justify-center items-center h-screen"><p className="text-xl font-semibold text-gray-600">Loading courses...</p></div>;

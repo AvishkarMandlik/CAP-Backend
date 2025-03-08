@@ -1,5 +1,4 @@
 const express = require("express")
-const axios = require("axios");
 const { connect, disconnect } = require("./mongoConn.js");
 const Router = express.Router();
 const bodyParser = require('body-parser');

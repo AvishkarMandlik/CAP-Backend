@@ -68,7 +68,7 @@ const SubmitForm = () => {
     ) {
       axios
         .post("http://localhost:5000/student/newAdmission", {
-          email: localStorage.getItem("mail"),
+          email: JSON.parse(localStorage.getItem("User Data")).email,
           personalInfo,
           educationalInfo,
           PhotoSignature: { photo, signature },
