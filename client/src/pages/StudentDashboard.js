@@ -1,59 +1,67 @@
-import React from 'react';
-import SidePanel from '../components/SidePanel';
-import { useState } from 'react';
-import Footer from '../components/Footer';
-
+import React, { useState } from "react";
+import SidePanel from "../components/SidePanel";
+import Footer from "../components/Footer";
+import ExamForm from "../components/Student/ExamForm";
+import Revaluation from "../components/Student/Revaluation";
+import Results from "../components/Student/Results";
 
 function StudentDashboard() {
+  const [activeComponent, setActiveComponent] = useState("AdmissionForm");
 
-    const [AdmissionForm, setAdmissionForm] = useState(true);
-    const [Courses, setCourses] = useState(false);
-    const [Revaluation, setRevaluation] = useState(false);
-    const [Results, setResults] = useState(false);
+  const studentProps = {
+    title: "STUDENT DASHBOARD",
+    items: [
+      {
+        text: "Admission Form",
+        icon: "fa fa-address-book",
+        link: "/studentdashboard/admissionform",
+      },
+      {
+        text: "Exam Form",
+        icon: "fa-solid fa-square-check",
+        callbackfunc: () => setActiveComponent("ExamForm"),
+      },
+      {
+        text: "Revaluation",
+        icon: "fa-solid fa-repeat",
+        callbackfunc: () => setActiveComponent("Revaluation"),
+      },
+      {
+        text: "Results",
+        icon: "fa fa-file-text ",
+        callbackfunc: () => setActiveComponent("Results"),
+      },
+    ],
+    content: "Welcome, student! Here you can access your information.",
+  };
 
-
-    const studentProps = {
-        title: "STUDENT DASHBOARD",
-        items: [
-            { text: "Admission Form", icon: "fa fa-address-book", link: "./admissionform", callbackfunc :()=>{ManagePage("AdmissionForm")} },
-            { text: "Courses", icon: "fa-solid fa-square-check", link: "#", callbackfunc :()=>{ManagePage("Courses")}},
-            { text: "Revaluation", icon: "fa-solid fa-repeat", link: "#",callbackfunc :()=>{ManagePage("Revaluation")} },
-            { text: "Results", icon: "fa fa-file-text", link: "#", callbackfunc :()=>{ManagePage("Results")} },
-        ],
-        content: "Welcome, student! Here you can access your information."
-    };
-
-    function turnFalse() {
-        setAdmissionForm(false);
-        setCourses(false);
-        setRevaluation(false);
-        setResults(false);
+  const renderActiveComponent = () => {
+    switch (activeComponent) {
+      case "AdmissionForm":
+        return null;
+      case "ExamForm":
+        console.log("active comp: " + activeComponent);
+        return <ExamForm />;
+      case "Revaluation":
+        return <Revaluation />;
+      case "Results":
+        return <Results />;
+      default:
+        return <div>Select an option from the sidebar</div>;
     }
+  };
 
-    function ManagePage(page) {
-        if (page === 'AdmissionForm') {
-            turnFalse();
-            setAdmissionForm(true);
-            window.location.href = "./studentdashboard/admissionform";
-            console.log('admission form');
-        } else if (page === 'Courses') {
-            turnFalse();
-            setCourses(true);
-        } else if (page === 'Revaluation') {
-            turnFalse();
-            setRevaluation(true);
-        } else if (page === 'Results') {
-            turnFalse();
-            setResults(true);
-        }
-    }
-
-    return (
-        <div>
-            <SidePanel {...studentProps} />
-            <Footer />
+  return (
+    <div className="flex min-h-screen flex-col">
+      <div className="flex flex-1">
+        <div className="w-64 bg-gray-800 text-white">
+          <SidePanel {...studentProps} />
         </div>
-    );
+        <div className="flex-1 p-6 bg-gray-100">{renderActiveComponent()}</div>
+      </div>
+      <Footer />
+    </div>
+  );
 }
 
 export default StudentDashboard;
