@@ -1,6 +1,5 @@
+import API from "../services/api";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-
 function ExternalMarksEntry() {
     const [marks, setMarks] = useState([]);
     const [formData, setFormData] = useState({
@@ -14,7 +13,7 @@ function ExternalMarksEntry() {
     }, []);
 
     const fetchMarks = async () => {
-        const response = await axios.get("http://localhost:5000/teacher/ExternalMark");
+        const response = await API.get("/teacher/ExternalMark");
         setMarks(response.data.data);
     };
 
@@ -24,13 +23,13 @@ function ExternalMarksEntry() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await axios.post("http://localhost:5000/teacher/ExternalMarkEntry", formData);
+        await API.post("/teacher/ExternalMarkEntry", formData);
         setFormData({ studentName: "", subName: "", marks: "" });
         fetchMarks();
     };
 
     const handleDelete = async (id) => {
-        await axios.delete(`http://localhost:5000/teacher/ExternalMark/${id}`);
+        await API.delete(`/teacher/ExternalMark/${id}`);
         fetchMarks();
     };
 
