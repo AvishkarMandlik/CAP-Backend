@@ -33,7 +33,7 @@ const Dashboard = () => {
     console.log("Verification called");
     axios
       .post("http://localhost:5000/student/checkAdmission", {
-        email: localStorage.getItem("mail"),
+        email: JSON.parse(localStorage.getItem("User Data")).email,
       })
       .then((response) => {
         if (response.data.status) {
@@ -70,7 +70,7 @@ const Dashboard = () => {
     
     axios
       .post("http://localhost:5000/student/checkSubmit", {
-        email: localStorage.getItem("mail"),
+        email: JSON.parse(localStorage.getItem("User Data")).email,
       })
       .then((response) => {
         if (response.data.status) {

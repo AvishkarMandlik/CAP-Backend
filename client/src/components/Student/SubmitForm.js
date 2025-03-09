@@ -68,7 +68,7 @@ const SubmitForm = () => {
     ) {
       axios
         .post("http://localhost:5000/student/newAdmission", {
-          email: localStorage.getItem("mail"),
+          email: JSON.parse(localStorage.getItem("User Data")).email,
           personalInfo,
           educationalInfo,
           PhotoSignature: { photo, signature },
@@ -81,6 +81,11 @@ const SubmitForm = () => {
               "Success",
               "Application submitted successfully."
             );
+            localStorage.removeItem("personalInfo");
+            localStorage.removeItem("EducationalInfo");
+            localStorage.removeItem("PhotoSignature");
+            localStorage.removeItem("Subjects");
+            localStorage.removeItem("CoursePayment");
           } else {
             showAlert("error", "Error", "Application submission failed.");
           }
@@ -436,7 +441,12 @@ const SubmitForm = () => {
       </div>
       {/* Centered Submit Button */}
       <div className="flex justify-center mt-8">
-        <button className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-8 py-3 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300 cursor-pointer hover:text-yellow-300 active:scale-95" onClick={()=>{handleSubmit()}}>
+        <button
+          className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-8 py-3 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300 cursor-pointer hover:text-yellow-300 active:scale-95"
+          onClick={() => {
+            handleSubmit();
+          }}
+        >
           Submit Form
         </button>
       </div>

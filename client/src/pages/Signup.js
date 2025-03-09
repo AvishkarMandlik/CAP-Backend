@@ -13,8 +13,6 @@ function Signup() {
     dob: "",
     mobileNumber: "",
     email: "",
-    course: "",
-    year: "",
     gender: "",
     password: "",
     terms: false,
@@ -163,7 +161,9 @@ function Signup() {
                 )}
 
                 <input
-                  type="text"
+                  type="tel" 
+                  pattern="[0-9]{10}"
+                  maxLength="10" 
                   name="mobileNumber"
                   placeholder="Mobile Number"
                   value={formData.mobileNumber}
@@ -179,34 +179,6 @@ function Signup() {
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white text-gray-900"
                 />
-
-                {formData.role === "student" && (
-                  <>
-                    <select
-                      name="course"
-                      value={formData.course}
-                      onChange={handleChange}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white text-gray-900"
-                    >
-                      <option value="">Select Course</option>
-                      <option value="art">Arts</option>
-                      <option value="commerce">Commerce</option>
-                      <option value="science">Science</option>
-                    </select>
-                    <select
-                      name="year"
-                      value={formData.year}
-                      onChange={handleChange}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white text-gray-900"
-                    >
-                      <option value="">Select Year</option>
-                      <option value="First Year">First Year</option>
-                      <option value="Second Year">Second Year</option>
-                      <option value="Third Year">Third Year</option>
-                      <option value="Fourth Year">Fourth Year</option>
-                    </select>
-                  </>
-                )}
 
                 <div className="flex items-center gap-4">
                   <label className="flex items-center text-gray-900">
