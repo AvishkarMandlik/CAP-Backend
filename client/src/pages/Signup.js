@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import API from '../components/services/api';
 import Swal from "sweetalert2";
 
 function Signup() {
@@ -40,8 +40,8 @@ function Signup() {
       return;
     }
 
-    axios
-      .post("http://localhost:5000/signup", formData)
+    API
+      .post("/signup", formData)
       .then((response) => {
         if(response.data.success){
         Swal.fire({
