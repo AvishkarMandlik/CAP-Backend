@@ -4,13 +4,19 @@ import Footer from "../components/Footer";
 import ExamForm from "../components/Student/ExamForm";
 import Revaluation from "../components/Student/Revaluation";
 import Results from "../components/Student/Results";
+import StudentProfile from "../components/Student/StudentProfile";
 
 function StudentDashboard() {
-  const [activeComponent, setActiveComponent] = useState("AdmissionForm");
+  const [activeComponent, setActiveComponent] = useState("StudentProfile");
 
   const studentProps = {
     title: "STUDENT DASHBOARD",
     items: [
+      {
+        text:"Student Profile",
+        icon: "fa fa-user",
+        callbackfunc: () => setActiveComponent("StudentProfile"),
+      },
       {
         text: "Admission Form",
         icon: "fa fa-address-book",
@@ -37,6 +43,8 @@ function StudentDashboard() {
 
   const renderActiveComponent = () => {
     switch (activeComponent) {
+      case "StudentProfile":
+        return <StudentProfile />;
       case "AdmissionForm":
         return null;
       case "ExamForm":
@@ -53,8 +61,10 @@ function StudentDashboard() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* <div className="flex flex-1"> */}
+      {/* <div className="flex flex-1">
+        <div className="w-64 bg-gray-800 text-white"> */}
           <SidePanel {...studentProps} />
+        {/* </div> */}
         <div className="flex-1 p-6 bg-gray-100">{renderActiveComponent()}</div>
       {/* </div> */}
       <Footer />
