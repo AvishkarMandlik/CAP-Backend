@@ -13,8 +13,8 @@ function StudentDashboard() {
     title: "STUDENT DASHBOARD",
     items: [
       {
-        text:"Student Profile",
-        icon: "fa fa-user",
+        text: "Dashboard",
+        icon: "fa-solid fa-house",
         callbackfunc: () => setActiveComponent("StudentProfile"),
       },
       {
@@ -24,17 +24,17 @@ function StudentDashboard() {
       },
       {
         text: "Exam Form",
-        icon: "fa-solid fa-square-check",
+        icon: "fa-solid fa-clipboard-check",
         callbackfunc: () => setActiveComponent("ExamForm"),
       },
       {
         text: "Revaluation",
-        icon: "fa-solid fa-repeat",
+        icon: "fa-solid fa-arrows-rotate",
         callbackfunc: () => setActiveComponent("Revaluation"),
       },
       {
         text: "Results",
-        icon: "fa fa-file-text ",
+        icon: "fa-solid fa-file-lines",
         callbackfunc: () => setActiveComponent("Results"),
       },
     ],

@@ -28,7 +28,7 @@ function CapDashboard() {
       },
       {
         text: "Admission Approval",
-        icon: "fa-solid fa-house",
+        icon: "fa-solid fa-user-check",
         callbackfunc: () => {
           ManagePage("AdmissionApproval");
         },
