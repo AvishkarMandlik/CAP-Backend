@@ -136,20 +136,20 @@ function CapDashboard() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <div className="flex flex-1">
-        <div className="w-60 bg-gray-800 text-white">
-          <SidePanel {...capProps} />
-        </div>
+      {/* <div className="flex flex-1">
+        <div className="w-60 bg-gray-800 text-white"> */}
+      <SidePanel {...capProps} />
+      {/* </div> */}
 
-        <div className="flex-1 p-2 bg-gray-100">
-          <div className="text-gray-600">
-            {AdmissionApprovalCheck ? <AdmissionApproval /> : null}
-            {DashboardCheck ? <Dashboard /> : null}
-            {CourseUpdateCheck ? <CourseUpdate /> : null}
-            {CourseAddCheck ? <CourseAdd /> : null}
-          </div>
-        </div>
-      </div>
+      {/* <div className="flex-1 p-2 bg-gray-100"> */}
+      {/* <div className="text-gray-600"> */}
+        {AdmissionApprovalCheck ? <AdmissionApproval /> : null}
+        {DashboardCheck ? <Dashboard /> : null}
+        {CourseUpdateCheck ? <CourseUpdate /> : null}
+        {CourseAddCheck ? <CourseAdd /> : null}
+        {/* </div> */}
+        {/* </div> */}
+      {/* </div> */}
 
       <Footer />
     </div>

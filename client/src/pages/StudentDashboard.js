@@ -53,10 +53,10 @@ function StudentDashboard() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <div className="flex flex-1">
+      {/* <div className="flex flex-1"> */}
           <SidePanel {...studentProps} />
         <div className="flex-1 p-6 bg-gray-100">{renderActiveComponent()}</div>
-      </div>
+      {/* </div> */}
       <Footer />
     </div>
   );
