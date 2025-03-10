@@ -1,5 +1,5 @@
+import API from "../services/api";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 function EditInternalMarks() {
     const [marks, setMarks] = useState([]);
@@ -11,7 +11,7 @@ function EditInternalMarks() {
     }, []);
 
     const fetchMarks = async () => {
-        const response = await axios.get("http://localhost:5000/teacher/InternalMark");
+        const response = await API.get("/teacher/InternalMark");
         setMarks(response.data.data);
     };
 
@@ -22,14 +22,14 @@ function EditInternalMarks() {
 
     const handleUpdate = async () => {
         if (!editingMark) return;
-        await axios.put(`http://localhost:5000/teacher/InternalMarkById/${editingMark._id}`, { marks: updatedMark });
+        await API.put(`/teacher/InternalMarkById/${editingMark._id}`, { marks: updatedMark });
         setEditingMark(null);
         setUpdatedMark("");
         fetchMarks();
     };
 
     const handleDelete = async (id) => {
-        await axios.delete(`http://localhost:5000/teacher/InternalMark/${id}`);
+        await API.delete(`/teacher/InternalMark/${id}`);
         fetchMarks();
     };
 

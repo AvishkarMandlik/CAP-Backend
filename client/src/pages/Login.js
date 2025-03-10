@@ -1,7 +1,8 @@
-import axios from "axios";
 import React, { useState } from "react";
+import API from '../components/services/api';
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2"; 
+
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -21,8 +22,8 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios
-      .post("http://localhost:5000/signin", {
+    API
+      .post("/signin", {
         role: formData.role,
         identifier: formData.identifier,
         password: formData.password,

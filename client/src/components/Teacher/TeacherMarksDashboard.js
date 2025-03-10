@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../services/api";
 
 function TeacherMarksDashboard() {
     const [entries, setEntries] = useState([]);
@@ -10,7 +10,7 @@ function TeacherMarksDashboard() {
 
     const fetchEntries = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/teacher/getsubjectEntriesforteacher");
+            const response = await API.get("/teacher/getsubjectEntriesforteacher");
             if (response.data.status) {
                 setEntries(response.data.data);
             }
