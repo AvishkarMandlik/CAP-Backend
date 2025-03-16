@@ -8,6 +8,7 @@ import TeacherDashboard from './pages/TeacherDashboard';
 import CapDashboard from './pages/CapDashboard';
 import HallTicket from './components/HallTicket/HallTicket';
 import AdmissionForm from './pages/AdmissionForm';
+import ApplicationForm from './pages/ApplicationForm';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
       <Route path="/capdashboard" element={<CapDashboard />} />
       <Route path="/hallticket" element={<HallTicket />} />
       <Route path="/studentdashboard/admissionform" element={<AdmissionForm />} />
+      <Route path="/StudentDashboard/applicationform" element={<ApplicationForm />} />
      
     </Routes>
   </BrowserRouter>
