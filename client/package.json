@@ -6,6 +6,7 @@
     "ajv-keywords": "^5.1.0",
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
+    "es6-promise": "^4.2.8",
     "html2pdf.js": "^0.10.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

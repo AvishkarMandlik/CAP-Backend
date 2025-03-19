@@ -5,12 +5,14 @@ import CourseAdd from "../components/Cap/CourseAdd";
 import Dashboard from "../components/Cap/Dashboard";
 import CourseUpdate from "../components/Cap/CourseUpdate";
 import Footer from "../components/Footer";
+import HallTicketGeneration from "../components/Cap/HallTicketGeneration";
 
 function CapDashboard() {
   const [AdmissionApprovalCheck, setAdmissionApproval] = useState(false);
   const [DashboardCheck, setDashboard] = useState(true);
   const [CourseUpdateCheck, setCourseUpdate] = useState(false);
   const [CourseAddCheck, setCourseAdd] = useState(false);
+  const [HallTicketGenerationCheck, setHallTicketGeneration] = useState(false);
   const [MarksheetCheck, setMarksheet] = useState(false);
   const [AtktFailPassCheck, setAtktFailPass] = useState(false);
   const [RevaluationCheck, setRevaluation] = useState(false);
@@ -45,6 +47,13 @@ function CapDashboard() {
         icon: "fa-solid fa-square-check",
         callbackfunc: () => {
           ManagePage("CourseAdd");
+        },
+      },
+      {
+        text: "Hall Ticket Generation",
+        icon: "fa-solid fa-ticket-alt",
+        callbackfunc: () => {
+          ManagePage("HallTicketGeneration");
         },
       },
       {
@@ -100,6 +109,7 @@ function CapDashboard() {
     setDashboard(false);
     setCourseUpdate(false);
     setCourseAdd(false);
+    setHallTicketGeneration(false);
     setMarksheet(false);
     setAtktFailPass(false);
     setRevaluation(false);
@@ -119,7 +129,11 @@ function CapDashboard() {
     } else if (page === "CourseAdd") {
       turnFalse();
       setCourseAdd(true);
-    } else if (page === "Marksheet") {
+    } else if (page === "HallTicketGeneration") {
+      turnFalse();
+      setHallTicketGeneration(true);
+    }
+    else if (page === "Marksheet") {
       turnFalse();
       setMarksheet(true);
     } else if (page === "AtktFailPass") {
@@ -147,6 +161,7 @@ function CapDashboard() {
         {DashboardCheck ? <Dashboard /> : null}
         {CourseUpdateCheck ? <CourseUpdate /> : null}
         {CourseAddCheck ? <CourseAdd /> : null}
+        {HallTicketGenerationCheck ? <HallTicketGeneration /> : null}
         {/* </div> */}
         {/* </div> */}
       {/* </div> */}

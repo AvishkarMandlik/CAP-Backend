@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import SidePanel from "../components/SidePanel";
 import Footer from "../components/Footer";
-import ExamForm from "../components/Student/ExamForm";
-import Revaluation from "../components/Student/Revaluation";
-import Results from "../components/Student/Results";
 import StudentProfile from "../components/Student/StudentProfile";
+import ExamForm from "../components/Student/ExamForm";
+import HallTicket from "../components/Student/HallTicket";
+import Marksheet from "../components/Student/Marksheet";
+import Revaluation from "../components/Student/Revaluation";
+import Certificate from "../components/Student/Certificate";
 
 function StudentDashboard() {
   const [activeComponent, setActiveComponent] = useState("StudentProfile");
@@ -28,14 +30,24 @@ function StudentDashboard() {
         callbackfunc: () => setActiveComponent("ExamForm"),
       },
       {
+        text: "Hall Ticket",
+        icon: "fa-solid fa-ticket-alt",
+        callbackfunc: () => setActiveComponent("HallTicket"),
+      },
+      {
+        text: "Marksheet",
+        icon: "fa-solid fa-file-lines",
+        callbackfunc: () => setActiveComponent("Marksheet"),
+      },
+      {
         text: "Revaluation",
         icon: "fa-solid fa-arrows-rotate",
         callbackfunc: () => setActiveComponent("Revaluation"),
       },
       {
-        text: "Results",
-        icon: "fa-solid fa-file-lines",
-        callbackfunc: () => setActiveComponent("Results"),
+        text: "Certificate",
+        icon: "fa-solid fa-certificate",
+        callbackfunc: () => setActiveComponent("Certificate"),
       },
     ],
     content: "Welcome, student! Here you can access your information.",
@@ -50,10 +62,14 @@ function StudentDashboard() {
       case "ExamForm":
         console.log("active comp: " + activeComponent);
         return <ExamForm />;
+      case "HallTicket":
+        return <HallTicket />;
+      case "Marksheet":
+        return <Marksheet />;
+      case "Results":
+          return <Certificate />;
       case "Revaluation":
         return <Revaluation />;
-      case "Results":
-        return <Results />;
       default:
         return <div>Select an option from the sidebar</div>;
     }
