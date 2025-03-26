@@ -22,57 +22,57 @@ function Admission() {
   const studentProps = {
     items: [
       {
-        text: "Dashboard",
-        icon: "fa-solid fa-square-check",
+        text: "Admission Dashboard",
+        icon: "fa-solid fa-gauge",
         callbackfunc: () => {
           ManagePage("Dashboard");
         },
       },
       {
         text: "Personal Info",
-        icon: "fa fa-address-book",
+        icon: "fa-solid fa-id-card",
         callbackfunc: () => {
           ManagePage("PersonalInfo");
         },
       },
       {
         text: "Educational Info",
-        icon: "fa-solid fa-repeat",
+        icon: "fa-solid fa-book-open",
         callbackfunc: () => {
           ManagePage("EducationalInfo");
         },
       },
       {
         text: "Photo & Signature",
-        icon: "fa fa-file-text",
+        icon: "fa-solid fa-image",
         callbackfunc: () => {
           ManagePage("PhotoSignature");
         },
       },
       {
         text: "Selection of Subject",
-        icon: "fa fa-file-text",
+        icon: "fa-solid fa-list-check",
         callbackfunc: () => {
           ManagePage("SelectionSubject");
         },
       },
       {
         text: "Make Payment",
-        icon: "fa fa-file-text",
+        icon: "fa-solid fa-credit-card",
         callbackfunc: () => {
           ManagePage("CoursePayment");
         },
       },
       {
         text: "Submit Application",
-        icon: "fa fa-file-text",
+        icon: "fa-solid fa-paper-plane",
         callbackfunc: () => {
           ManagePage("SubmitApplication");
         },
       },
       {
         text: "Exit to Main Dashboard",
-        icon: "fa fa-file-text",
+        icon: "fa-solid fa-right-from-bracket",
         link: "/studentdashboard",
       },
     ],

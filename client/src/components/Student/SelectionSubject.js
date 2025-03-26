@@ -13,8 +13,10 @@ function SelectionSubject({ func }) {
   });
 
   useEffect(() => {
-    const course = JSON.parse(localStorage.getItem("personalInfo")).course;
-    axios
+    const course = JSON.parse(localStorage.getItem("personalInfo"))?.course;
+    if(course){
+
+      axios
       .post("http://localhost:5000/student/GetSubjects", {
         course: [course[0], course[1], course[2]],
         year: course[3],
@@ -27,22 +29,23 @@ function SelectionSubject({ func }) {
         const preselectedSubjects = Object.keys(response.data).reduce(
           (acc, sem) => {
             acc[sem] = response.data[sem].subjects
-              .filter((subject) => subject.compulsion === "Compulsory")
-              .map((subject) => subject.code);
+            .filter((subject) => subject.compulsion === "Compulsory")
+            .map((subject) => subject.code);
             return acc;
           },
           {}
         );
         setSelectedSubjects(preselectedSubjects);
-  
+        
         // ✅ Load stored subjects (after preselecting compulsory ones)
         const storedSubjects = localStorage.getItem("Subjects");
         if (storedSubjects) {
           setSelectedSubjects(JSON.parse(storedSubjects));
         }
-  
+        
         setLoading(false);
       });
+    }
   }, []);
   
 

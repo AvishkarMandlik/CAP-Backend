@@ -63,8 +63,7 @@ function SidePanel(props) {
           to="#"
           className="flex items-center space-x-3 text-red-400 font-bold mb-6"
         >
-          <i className="fa-solid fa-house"></i>
-          <span>{user.name}</span>
+          <span className="text-lg">{user.name}</span>
         </div>
         <nav className="menu flex flex-col space-y-6">
           {props.items.map((item, index) => (

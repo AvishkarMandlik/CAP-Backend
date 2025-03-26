@@ -12,6 +12,7 @@ const SubmitForm = () => {
   const [signature, setSignature] = useState(null); // For signature
   const [Subjects, setSubjects] = useState(null);
   const [SubjectCodes, setSubjectCodes] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // Fetch data from localStorage on component mount
   useEffect(() => {
@@ -35,7 +36,7 @@ const SubmitForm = () => {
   }, []);
 
   useEffect(() => {
-    const info = JSON.parse(localStorage.getItem("personalInfo")).course;
+    const info = JSON.parse(localStorage.getItem("personalInfo"))?.course;
     const storedSubjects = localStorage.getItem("Subjects");
     if (storedSubjects) {
       setSubjectCodes(JSON.parse(storedSubjects));
@@ -47,6 +48,7 @@ const SubmitForm = () => {
         .then((response) => {
           console.log(response.data);
           setSubjects(response.data);
+          setLoading(false);
         });
     }
   }, [personalInfo]);
@@ -104,6 +106,11 @@ const SubmitForm = () => {
   const closeModal = () => {
     setSelectedDocument(null);
   };
+
+  if(loading){
+    return(
+      <div className="text-center py-4">Loading information...</div>)
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg h-screen overflow-y-auto">

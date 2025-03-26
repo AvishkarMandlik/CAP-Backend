@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import SidePanel from "../components/SidePanel";
-import Revaluation from "../components/Student/Revaluation";
-import Results from "../components/Student/Results";
+import Footer from "../components/Footer";
 import StudentProfile from "../components/Student/StudentProfile";
+import HallTicket from "../components/Student/HallTicket";
+import Marksheet from "../components/Student/Marksheet";
+import ExamForm from "../components/Student/ExamForm";
+import Revaluation from "../components/Student/Revaluation";
+import Certificate from "../components/Student/Certificate";
 import ExamFormDashboard from "../components/Student/ExamFormDashboard";
+
+
 
 function StudentDashboard() {
   const [activeComponent, setActiveComponent] = useState("StudentProfile");
@@ -12,8 +18,8 @@ function StudentDashboard() {
     title: "STUDENT DASHBOARD",
     items: [
       {
-        text:"Student Profile",
-        icon: "fa fa-user",
+        text: "Dashboard",
+        icon: "fa-solid fa-house",
         callbackfunc: () => setActiveComponent("StudentProfile"),
       },
       {
@@ -23,18 +29,28 @@ function StudentDashboard() {
       },
       {
         text: "Exam Form",
-        icon: "fa-solid fa-square-check",
+        icon: "fa-solid fa-clipboard-check",
         callbackfunc: () => setActiveComponent("ExamForm"),
       },
       {
+        text: "Hall Ticket",
+        icon: "fa-solid fa-ticket-alt",
+        callbackfunc: () => setActiveComponent("HallTicket"),
+      },
+      {
+        text: "Marksheet",
+        icon: "fa-solid fa-file-lines",
+        callbackfunc: () => setActiveComponent("Marksheet"),
+      },
+      {
         text: "Revaluation",
-        icon: "fa-solid fa-repeat",
+        icon: "fa-solid fa-arrows-rotate",
         callbackfunc: () => setActiveComponent("Revaluation"),
       },
       {
-        text: "Results",
-        icon: "fa fa-file-text ",
-        callbackfunc: () => setActiveComponent("Results"),
+        text: "Certificate",
+        icon: "fa-solid fa-certificate",
+        callbackfunc: () => setActiveComponent("Certificate"),
       },
     ],
     content: "Welcome, student! Here you can access your information.",
@@ -47,11 +63,10 @@ function StudentDashboard() {
       case "AdmissionForm":
         return null;
       case "ExamForm":
-        return <ExamFormDashboard />;
+        console.log("active comp: " + activeComponent);
+        return <ExamForm />;
       case "Revaluation":
         return <Revaluation />;
-      case "Results":
-        return <Results />;
       default:
         return <div>Select an option from the sidebar</div>;
     }

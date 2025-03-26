@@ -64,6 +64,27 @@ Router.post("/newAdmission", async (req, res) => {
   }
 });
 
+Router.get("/getAdmission/:appNo", async (req, res) => {
+    try {
+        const db = await connect();
+        const admissionsCollection = db.collection("Admissions");
+
+        // Find the admission record by AppNo
+        const admissionData = await admissionsCollection.findOne({ AppNo: parseInt(req.params.appNo) });
+
+        if (!admissionData) {
+            return res.status(404).json({ status: false, error: "Admission not found" });
+        }
+
+        await disconnect();
+        res.json({ status: true, data: admissionData }); // Return admission data
+    } catch (error) {
+        console.error("Error in getAdmission:", error);
+        res.status(500).json({ status: false, error: "Internal Server Error" });
+    }
+});
+
+
 Router.post("/GetSubjects", async (req, res) => {
   const db = await connect();
   const collection = db.collection("Subjects");

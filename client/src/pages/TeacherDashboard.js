@@ -17,13 +17,13 @@ function TeacherDashboard() {
     title: "TEACHER DASHBOARD",
     items: [
       {
-        text: "Teacher Marks Dashboard",
-        icon: "fa-solid fa-chalkboard-teacher",
+        text: "Dashboard",
+        icon: "fa-solid fa-house",
         callbackfunc: () => setActiveComponent("TeacherMarksDashboard"),
       },
       {
         text: "Int. Examiner - Marks Entry and Absentee",
-        icon: "fa-solid fa-pen-to-square",
+        icon: "fa-solid fa-clipboard-list",
         callbackfunc: () => setActiveComponent("InternalMarksEntry"),
       },
       {
@@ -33,17 +33,17 @@ function TeacherDashboard() {
       },
       {
         text: "Ext. Examiner - Marks Entry and Absentee",
-        icon: "fa-solid fa-pen-to-square",
+        icon: "fa-solid fa-file-signature",
         callbackfunc: () => setActiveComponent("ExternalMarksEntry"),
       },
       {
         text: "Ext. Examiner - Edit Permission External",
-        icon: "fa-solid fa-pen-to-square",
+        icon: "fa-solid fa-user-edit",
         callbackfunc: () => setActiveComponent("EditExternalMarks"),
       },
       {
         text: "View Status",
-        icon: "fa-solid fa-square-poll-vertical",
+        icon: "fa-solid fa-chart-bar",
         callbackfunc: () => setActiveComponent("ViewStatus"),
       },
     ],
