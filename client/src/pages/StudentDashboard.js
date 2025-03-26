@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import SidePanel from "../components/SidePanel";
-import Footer from "../components/Footer";
-import ExamForm from "../components/Student/ExamForm";
 import Revaluation from "../components/Student/Revaluation";
 import Results from "../components/Student/Results";
 import StudentProfile from "../components/Student/StudentProfile";
+import ExamFormDashboard from "../components/Student/ExamFormDashboard";
 
 function StudentDashboard() {
   const [activeComponent, setActiveComponent] = useState("StudentProfile");
@@ -48,8 +47,7 @@ function StudentDashboard() {
       case "AdmissionForm":
         return null;
       case "ExamForm":
-        console.log("active comp: " + activeComponent);
-        return <ExamForm />;
+        return <ExamFormDashboard />;
       case "Revaluation":
         return <Revaluation />;
       case "Results":
@@ -60,14 +58,9 @@ function StudentDashboard() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* <div className="flex flex-1">
-        <div className="w-64 bg-gray-800 text-white"> */}
+    <div className="flex min-h-screen">
           <SidePanel {...studentProps} />
-        {/* </div> */}
         <div className="flex-1 p-6 bg-gray-100">{renderActiveComponent()}</div>
-      {/* </div> */}
-      <Footer />
     </div>
   );
 }

@@ -70,16 +70,10 @@ function TeacherDashboard() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* <div className="flex flex-1">
-        <div className="w-64 bg-gray-800 text-white"> */}
+    <div className="flex min-h-screen">
           <SidePanel {...teacherProps} />
-        {/* </div> */}
-
         <div className="flex-1 p-6 bg-gray-100">{renderActiveComponent()}</div>
-      {/* </div> */}
 
-      <Footer />
     </div>
   );
 }

@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 
-function Educationalinfo({func}) {
+function Educationalinfo({ func }) {
   const fileInputRef = useRef(null);
 
   const [lastExam, setLastExam] = useState("");
   const [Eligibility, setEligibility] = useState("");
+  const [ExistingStudent, setExistingStudent] = useState(false);
+  const [PRN, setPRN] = useState(null);
+
   const [choosenFile, setChoosenFile] = useState("No file choosen");
   const [FYMarksheet, setFYMarksheet] = useState("");
   const [SYMarksheet, setSYMarksheet] = useState("");
@@ -55,19 +58,23 @@ function Educationalinfo({func}) {
       setSYMarksheet(parsedData.SYMarksheet || "");
       setAadhar(parsedData.aadhar || "");
       setFinalMarksheet(parsedData.FinalMarksheet || "");
+      if (parsedData.PRN) {
+        setPRN(parsedData.PRN);
+        setExistingStudent(true);
+      }
 
-      if(parsedData.FYMarksheet != ""){
+      if (parsedData.FYMarksheet != "") {
         setCheck1(true);
-        }
-        if(parsedData.SYMarksheet != ""){ 
+      }
+      if (parsedData.SYMarksheet != "") {
         setCheck2(true);
-        }
-        if(parsedData.aadhar != ""){
+      }
+      if (parsedData.aadhar != "") {
         setCheck3(true);
-        }
-        if(parsedData.FinalMarksheet != ""){
+      }
+      if (parsedData.FinalMarksheet != "") {
         setCheck4(true);
-        }
+      }
     }
     setLoading(false); // ✅ Fix: set loading to false when data is fetched
   }, []);
@@ -101,6 +108,7 @@ function Educationalinfo({func}) {
         JSON.stringify({
           lastExam,
           Eligibility,
+          PRN,
           FYMarksheet,
           SYMarksheet,
           aadhar,
@@ -139,12 +147,53 @@ function Educationalinfo({func}) {
           Eligibility No.:
         </label>
         <input
-          type="text"
+          type="number"
           value={Eligibility}
           onChange={(e) => setEligibility(e.target.value)}
           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
         />
       </div>
+      <div className="p-3 border border-gray-300 rounded-md bg-gray-50">
+        <p className="text-sm font-medium text-gray-800 mb-2">
+          Are you an existing student of this institute?
+        </p>
+        <div className="flex items-center gap-4">
+          <label className="flex items-center gap-1 cursor-pointer">
+            <input
+              type="checkbox"
+              className="w-4 h-4 text-blue-500 border-gray-400 rounded focus:ring-0"
+              checked={ExistingStudent}
+              onChange={(e) => setExistingStudent(e.target.checked)}
+            />
+            <span className="text-sm text-gray-700">Yes</span>
+          </label>
+
+          <label className="flex items-center gap-1 cursor-pointer">
+            <input
+              type="checkbox"
+              className="w-4 h-4 text-blue-500 border-gray-400 rounded focus:ring-0"
+              checked={!ExistingStudent}
+              onChange={(e) => setExistingStudent(!e.target.checked)}
+            />
+            <span className="text-sm text-gray-700">No</span>
+          </label>
+        </div>
+      </div>
+
+      {ExistingStudent && (
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700">
+            Existing PRN.:
+          </label>
+          <input
+            type="number"
+            value={PRN}
+            placeholder="Add only if you are an existing student of this institute."
+            onChange={(e) => setPRN(e.target.value)}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          />
+        </div>
+      )}
 
       <div className="mb-6">
         <p className="text-sm text-gray-600">Note: Marksheet is mandatory.</p>
