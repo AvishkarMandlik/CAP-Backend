@@ -110,16 +110,13 @@ function CapDashboard() {
     } else if (page === "CourseAdd") {
       turnFalse();
       setCourseAdd(true);
-    }
-    else if (page === "ExamFormOpen") {
+    } else if (page === "ExamFormOpen") {
       turnFalse();
       setExamForm(true);
-
     } else if (page === "HallTicketGeneration") {
       turnFalse();
       setHallTicketGeneration(true);
-    }
-    else if (page === "Marksheet") {
+    } else if (page === "Marksheet") {
       turnFalse();
       setMarksheet(true);
     } else if (page === "AtktFailPass") {
@@ -135,14 +132,17 @@ function CapDashboard() {
   }
 
   return (
-    <div className="flex min-h-screen">
-      <SidePanel {...capProps} />
+    <div className="flex h-screen">
+      <div className=" h-screen shadow-md">
+        <SidePanel {...capProps} />
+      </div>
+      <div className="w-4/4 bg-gray-100 overflow-y-auto">
         {AdmissionApprovalCheck ? <AdmissionApproval /> : null}
         {DashboardCheck ? <Dashboard /> : null}
         {CourseAddCheck ? <CourseAdd /> : null}
         {HallTicketGenerationCheck ? <HallTicketGeneration /> : null}
         {ExamFormCheck ? <ExamFormOpen /> : null}
-
+      </div>
     </div>
   );
 }

@@ -9,8 +9,6 @@ import Revaluation from "../components/Student/Revaluation";
 import Certificate from "../components/Student/Certificate";
 import ExamFormDashboard from "../components/Student/ExamFormDashboard";
 
-
-
 function StudentDashboard() {
   const [activeComponent, setActiveComponent] = useState("StudentProfile");
 
@@ -65,17 +63,27 @@ function StudentDashboard() {
       case "ExamForm":
         console.log("active comp: " + activeComponent);
         return <ExamForm />;
+      case "HallTicket":
+        return <HallTicket />;
+      case "Marksheet":
+        return <Marksheet />;
       case "Revaluation":
         return <Revaluation />;
+      case "Certificate":
+        return <Certificate />;
       default:
         return <div>Select an option from the sidebar</div>;
     }
   };
 
   return (
-    <div className="flex min-h-screen">
-          <SidePanel {...studentProps} />
-        <div className="flex-1 p-6 bg-gray-100">{renderActiveComponent()}</div>
+    <div className="flex h-screen">
+      <div className=" h-screen shadow-md">
+        <SidePanel {...studentProps} />
+      </div>
+      <div className="w-4/4 bg-gray-100 overflow-y-auto">
+        {renderActiveComponent()}
+      </div>
     </div>
   );
 }
