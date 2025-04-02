@@ -3,12 +3,10 @@ import html2pdf from 'html2pdf.js';
 
 const HallTicket = () => {
   const printHallTicket = () => {
-    const ticket = document.querySelector("main");
-    const wrapper = document.querySelector(".ticketWrapper");
-    wrapper.style.backgroundRepeat = "space";
+    const ticket = document.querySelector(".ticket-content");
     var opt = {
       margin: [0.5, 0, 0.5, 0],
-      filename: 'myfile.pdf',
+      filename: 'hall_ticket.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: {
         scale: 2,
@@ -23,10 +21,10 @@ const HallTicket = () => {
     html2pdf().from(ticket).set(opt).save();
   };
 
-
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-      <div className="bg-white shadow-md w-full max-w-4xl p-6 relative">
+    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
+      {/* Hall Ticket Content */}
+      <div className="ticket-content bg-white shadow-md w-full max-w-4xl p-6 relative mb-6">
         {/* Watermark Background */}
         {/* <div className="absolute inset-0 opacity-35 z-0 overflow-hidden">
           <div className="absolute inset-0 grid grid-cols-4 grid-rows-4 ">
@@ -187,18 +185,16 @@ const HallTicket = () => {
               <div className="text-sm">DR D.Y. PATIL ARTS, COMMERCE & SCIENCE COLLEGE</div>
             </div>
           </div>
-          
-          {/* Button outside the printable area */}
-          <div className="text-center mt-6 print:hidden">
-            <button 
-              onClick={printHallTicket}
-              className="px-5 py-2 bg-white border-2 border-black rounded text-base hover:bg-black hover:text-white transition-colors"
-            >
-              Print Hall Ticket
-            </button>
-          </div>
         </div>
       </div>
+
+      {/* Print Button - Outside the ticket content */}
+      <button 
+        onClick={printHallTicket}
+        className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+      >
+        Download Hall Ticket
+      </button>
     </div>
   );
 };

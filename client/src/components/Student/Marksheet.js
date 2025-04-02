@@ -1,9 +1,24 @@
 import React from 'react';
+import html2pdf from 'html2pdf.js';
 
 const MarkSheet = () => {
+  const handleDownload = () => {
+    const element = document.getElementById('marksheet-content');
+    
+    const opt = {
+      margin: 10,
+      filename: 'marksheet.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().from(element).set(opt).save();
+  };
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-      <div className="bg-white shadow-md w-full max-w-4xl p-6">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 p-4">
+      <div id="marksheet-content" className="bg-white shadow-md w-full max-w-4xl p-6 mb-8">
         {/* University Header */}
         <div className="flex items-center justify-center mb-2">
           <div className="w-16 mr-4">
@@ -244,7 +259,6 @@ const MarkSheet = () => {
           <div>RESULT DATE: 10 July 2024</div>
         </div>
         
-        {/* Disclaimer */}
         <div className="my-4">
           <p>The results published online are for immediate information only. These cannot be treated as original statement of marks. Please verify the information from original statement of marks issued by the Savitribai Phule Pune University separately.</p>
         </div>
@@ -258,6 +272,14 @@ const MarkSheet = () => {
           </div>
         </div>
       </div>
+
+      {/* Download PDF Button */}
+      <button 
+        onClick={handleDownload}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Download Marksheek
+      </button>
     </div>
   );
 };
