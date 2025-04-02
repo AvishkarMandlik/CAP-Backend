@@ -33,7 +33,7 @@ function SidePanel(props) {
   }
 
   return (
-<div className="fixed top-0 left-0 h-screen w-64 bg-gray-100 flex sm:relative sm:h-[calc(100vh-8rem)] sm:w-auto">
+<div className="fixed top-0 left-0 min-h-screen w-50 bg-gray-100 flex sm:relative sm:h-[calc(100vh-8rem)] sm:w-auto">
 
 {/* Sidebar */}
       <div className="sidebar bg-black text-white w-64 min-h-screen flex flex-col py-6 px-4 shadow-lg">
